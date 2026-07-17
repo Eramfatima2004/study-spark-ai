@@ -4,7 +4,7 @@ import { Bookmark, ChevronLeft, ChevronRight, Shuffle, CheckCircle, HelpCircle }
 export function Flashcards({ cards, bookmarks, onBookmark }) {
   const [index, setIndex] = useState(0);
   const [flipped, setFlipped] = useState(false);
-  const [cardOrder, setCardOrder] = useState([...Array(cards.length).keys()]); // maps display index -> original index
+  const [cardOrder, setCardOrder] = useState(() => [...Array(cards.length).keys()]); // maps display index -> original index
   const [cardStates, setCardStates] = useState({}); // maps card.id -> 'known' | 'review' | undefined
 
   // Reset or initialize state when cards list changes
@@ -135,34 +135,25 @@ export function Flashcards({ cards, bookmarks, onBookmark }) {
         </div>
       </div>
 
-      {/* 3D Flip Card Container */}
+      {/* Interactive Display Card */}
       <div className="flashcard-scene" onClick={() => setFlipped(!flipped)}>
-        <div className={`flashcard-card-inner ${flipped ? 'is-flipped' : ''}`}>
-          {/* Card Front */}
-          <div className={`flashcard-face flashcard-front difficulty-${difficulty.toLowerCase()}`}>
+        <div className="flashcard-card-inner">
+          <div 
+            className={`flashcard-face flashcard-front difficulty-${difficulty.toLowerCase()}`}
+            style={{ backfaceVisibility: 'visible', transform: 'none', position: 'relative' }}
+          >
             <div className="card-face-header">
-              <span className="tag-badge category">{category}</span>
+              <span className="tag-badge category">{flipped ? 'Answer' : category}</span>
               <span className={`tag-badge difficulty ${difficulty.toLowerCase()}`}>{difficulty}</span>
             </div>
-            <div className="card-face-body">
-              <span className="card-face-label">Question</span>
-              <strong>{card.question}</strong>
+            <div className="card-face-body" style={{ margin: 'auto 0' }}>
+              <span className="card-face-label">{flipped ? 'Answer' : 'Question'}</span>
+              <strong style={{ display: 'block', fontSize: '20px', lineHeight: '1.4', marginTop: '10px' }}>
+                {flipped ? card.answer : card.question}
+              </strong>
             </div>
             <div className="card-face-footer">
-              <small>Click card or press Space to reveal answer</small>
-            </div>
-          </div>
-
-          {/* Card Back */}
-          <div className="flashcard-face flashcard-back">
-            <div className="card-face-header">
-              <span className="tag-badge answer-badge">Answer</span>
-            </div>
-            <div className="card-face-body">
-              <strong>{card.answer}</strong>
-            </div>
-            <div className="card-face-footer">
-              <small>Click card or press Space to see question</small>
+              <small>Click card or press Space to {flipped ? 'see question' : 'reveal answer'}</small>
             </div>
           </div>
         </div>
@@ -209,4 +200,5 @@ export function Flashcards({ cards, bookmarks, onBookmark }) {
     </section>
   );
 }
+
 

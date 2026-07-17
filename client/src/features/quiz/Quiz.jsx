@@ -2,24 +2,34 @@ import { useEffect, useState } from 'react';
 import { CheckCircle2, RotateCcw, XCircle, AlertCircle, ChevronLeft, ChevronRight } from 'lucide-react';
 
 export function Quiz({ questions }) {
-  const [questionOrder, setQuestionOrder] = useState([]);
-  const [index, setIndex] = useState(0);
-  const [userChoices, setUserChoices] = useState([]); // array mapping display index -> choice string
-  const [complete, setComplete] = useState(false);
-  const [showReviewOnly, setShowReviewOnly] = useState(false);
-
-  // Initialize and randomize quiz questions
-  useEffect(() => {
-    initQuiz();
-  }, [questions]);
-
-  const initQuiz = () => {
-    const indices = [...Array(questions.length).keys()];
+  const getInitialOrder = (len) => {
+    const indices = [...Array(len).keys()];
     // Fisher-Yates shuffle
     for (let i = indices.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [indices[i], indices[j]] = [indices[j], indices[i]];
     }
+    return indices;
+  };
+
+  const [questionOrder, setQuestionOrder] = useState(() => getInitialOrder(questions.length));
+  const [index, setIndex] = useState(0);
+  const [userChoices, setUserChoices] = useState(() => Array(questions.length).fill(null)); // array mapping display index -> choice string
+  const [complete, setComplete] = useState(false);
+  const [showReviewOnly, setShowReviewOnly] = useState(false);
+
+  // Sync state if questions list changes
+  useEffect(() => {
+    const indices = getInitialOrder(questions.length);
+    setQuestionOrder(indices);
+    setIndex(0);
+    setUserChoices(Array(questions.length).fill(null));
+    setComplete(false);
+    setShowReviewOnly(false);
+  }, [questions]);
+
+  const initQuiz = () => {
+    const indices = getInitialOrder(questions.length);
     setQuestionOrder(indices);
     setIndex(0);
     setUserChoices(Array(questions.length).fill(null));
