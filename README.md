@@ -1,33 +1,393 @@
-# StudySpark AI
+# 📚 StudySpark AI
 
-StudySpark turns raw study material into a concise summary, active-recall flashcards, and an interactive quiz. It deliberately uses a focused workspace rather than a chat interface.
+> Transform any topic or study notes into interactive AI-powered summaries, flashcards, and quizzes.
 
-## Architecture
+StudySpark AI is an intelligent study companion that converts free-form text into structured learning material using **Google Gemini 2.5 Flash**. Instead of functioning as a chatbot, the application generates structured JSON and renders it into interactive UI components such as summaries, flashcards, quizzes, and saved study sessions.
 
-The repository is a small npm workspace with a React client and an Express API. The client organizes interactive product areas under `src/features`, while shared application state is held in a lightweight context. The server owns all Gemini access, prompting, retries, and Zod validation. The browser never receives the API key.
+---
 
-## Tech stack
+# 🌐 Live Demo
 
-- React 19, Vite, React Router, Framer Motion, Lucide, React Hot Toast, Zod
-- Node.js, Express, `@google/genai`, dotenv, CORS, Zod
+### 🚀 Frontend
+**Live Application:**  
+https://your-frontend-url.vercel.app
 
-## Setup
+### ⚙️ Backend API
+**API Base URL:**  
+https://your-backend-url.onrender.com
 
-1. Install dependencies: `npm install`
-2. Copy `server/.env.example` to `server/.env` and set `GEMINI_API_KEY`.
-3. Run `npm run dev`.
-4. Open `http://localhost:5173`.
+### 📂 GitHub Repository
+https://github.com/Eramfatima2004/study-spark-ai
 
-Set `VITE_API_URL` in `client/.env` only when the API is hosted elsewhere.
+### 🎥 Demo Video
+https://your-demo-video-link
 
-## Reliability choices
+---
 
-The API requires JSON mime output, retries once if the model response is malformed, and validates its exact shape with Zod. The client validates again before rendering. Generation requests use `AbortController` and a request counter, so a late response cannot overwrite a newer request. Error messages are intentionally helpful without exposing backend details.
+# ✨ Features
 
-## AI disclosure and limitations
+## 🤖 AI-Powered Study Generation
 
-AI-generated content can be inaccurate; learners should verify important material. Long notes are capped at 12,000 characters and the current persistence layer uses browser local storage. Future work could add authentication, cloud sync, PDF extraction, spaced-repetition scheduling, and automated tests.
+Generate structured study material from:
 
-## Deployment
+- Class Notes
+- Technical Topics
+- Programming Concepts
+- Interview Questions
+- Exam Preparation Topics
 
-Deploy the client as a Vite static application and the server as a Node service. Configure `GEMINI_API_KEY`, `GEMINI_MODEL`, `CLIENT_ORIGIN`, and `PORT` on the server platform.
+Powered by **Google Gemini 2.5 Flash**.
+
+---
+
+## 📖 AI Summary
+
+Automatically generates:
+
+- Detailed explanations
+- Important definitions
+- Key concepts
+- Real-world examples
+- Common mistakes
+- Exam tips
+- Quick revision notes
+
+---
+
+## 🧠 Interactive Flashcards
+
+- Flip animation
+- Previous / Next navigation
+- Progress tracking
+- Responsive design
+- Easy revision
+
+---
+
+## 📝 AI Quiz
+
+Generate interactive quizzes featuring:
+
+- Multiple Choice Questions
+- Instant feedback
+- Score tracking
+- Correct answers
+- Detailed explanations
+
+---
+
+## 📚 Study Library
+
+- Save generated study sets
+- Revisit previous sessions
+- Organize learning material
+
+---
+
+## 🕒 Recent Sessions
+
+Quickly reopen recently generated study topics without regenerating them.
+
+---
+
+## 🎨 Premium UI
+
+- Responsive Design
+- Dark Mode
+- Modern Layout
+- Smooth Animations
+- Mobile Friendly
+- Beautiful Cards
+
+---
+
+# 🏗️ Tech Stack
+
+## Frontend
+
+- React
+- Vite
+- React Router
+- React Hooks
+- CSS Modules
+
+## Backend
+
+- Node.js
+- Express.js
+
+## AI
+
+- Google Gemini 2.5 Flash
+- @google/genai SDK
+
+---
+
+# 📂 Project Structure
+
+```
+StudySpark-AI
+│
+├── client
+│   ├── src
+│   │   ├── app
+│   │   ├── components
+│   │   ├── features
+│   │   ├── hooks
+│   │   ├── pages
+│   │   ├── services
+│   │   └── styles
+│   │
+│   └── package.json
+│
+├── server
+│   ├── src
+│   │   ├── prompts
+│   │   ├── routes
+│   │   ├── schemas
+│   │   ├── services
+│   │   └── index.js
+│   │
+│   ├── .env.example
+│   └── package.json
+│
+├── package.json
+└── README.md
+```
+
+---
+
+# ⚙️ Installation
+
+Clone the repository
+
+```bash
+git clone https://github.com/Eramfatima2004/study-spark-ai.git
+```
+
+Move into the project
+
+```bash
+cd study-spark-ai
+```
+
+Install dependencies
+
+```bash
+npm install
+```
+
+Install frontend dependencies
+
+```bash
+cd client
+npm install
+```
+
+Install backend dependencies
+
+```bash
+cd ../server
+npm install
+```
+
+---
+
+# 🔑 Environment Variables
+
+Create:
+
+```
+server/.env
+```
+
+Example
+
+```env
+GEMINI_API_KEY=YOUR_GEMINI_API_KEY
+PORT=5000
+```
+
+---
+
+# ▶️ Running the Project
+
+### Start Backend
+
+```bash
+cd server
+npm run dev
+```
+
+### Start Frontend
+
+```bash
+cd client
+npm run dev
+```
+
+Open:
+
+```
+http://localhost:5173
+```
+
+---
+
+# 🔄 Application Workflow
+
+```
+User enters notes/topic
+          │
+          ▼
+React Frontend
+          │
+          ▼
+Express Backend
+          │
+          ▼
+Gemini 2.5 Flash
+          │
+          ▼
+Structured JSON
+          │
+          ▼
+Schema Validation
+          │
+          ▼
+Interactive UI
+```
+
+---
+
+# 📸 Screenshots
+
+Add screenshots of:
+
+- Landing Page
+- Workspace
+- AI Summary
+- Flashcards
+- Quiz
+- Study Library
+
+---
+
+# 🤖 AI Usage
+
+AI tools were used to assist with:
+
+- Brainstorming UI ideas
+- Refining prompts
+- Debugging implementation issues
+- Improving component structure
+- Writing documentation
+
+All generated code was reviewed, integrated, tested, and modified manually to ensure correctness and understanding.
+
+---
+
+# ⚠️ Error Handling
+
+The application gracefully handles:
+
+- Invalid AI responses
+- Empty responses
+- Network failures
+- API errors
+- Loading states
+- Retry flow
+- Backend validation failures
+
+The application never crashes because of malformed AI output.
+
+---
+
+# 📱 Responsive Design
+
+Fully optimized for:
+
+- Desktop
+- Tablet
+- Mobile
+
+---
+
+# 🔒 Security
+
+- API key stored securely using environment variables
+- API key never exposed to the frontend
+- All Gemini requests routed through the backend
+
+---
+
+# 🚧 Known Limitations
+
+- Requires an active internet connection
+- Depends on Gemini API availability
+- AI-generated content may occasionally vary depending on the model response
+- Free-tier API usage may be rate limited
+
+---
+
+# 🚀 Future Improvements
+
+- PDF Upload
+- OCR Support
+- Voice Input
+- Export Notes as PDF
+- Spaced Repetition
+- AI Study Planner
+- Authentication
+- Cloud Sync
+
+---
+
+# ⏱️ Time Spent
+
+Approximately **8 hours**
+
+| Task | Time |
+|------|------|
+| Project Planning | 30 mins |
+| UI Development | 2 hrs |
+| Backend Development | 1.5 hrs |
+| Gemini Integration | 1.5 hrs |
+| Error Handling | 45 mins |
+| Testing & Debugging | 1 hr |
+| Documentation | 30 mins |
+
+---
+
+# 👩‍💻 Author
+
+## Eram Fatima
+
+B.Tech Computer Science (IoT)
+
+Frontend Developer | AI Enthusiast
+
+**GitHub:**  
+https://github.com/Eramfatima2004
+
+**LinkedIn:**  
+https://linkedin.com/in/your-linkedin-profile
+
+---
+
+## ❤️ Acknowledgements
+
+Built using:
+
+- React
+- Express.js
+- Google Gemini 2.5 Flash
+- Vite
+
+Created with ❤️ by **Eram Fatima**
+
+---
+
+# 📄 License
+
+This project was developed as part of a Frontend Internship Assignment and is intended for educational and demonstration purposes.
