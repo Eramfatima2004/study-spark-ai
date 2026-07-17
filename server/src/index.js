@@ -8,7 +8,7 @@ const app = express();
 
 const allowedOrigins=[
   "http:localhost:5178",
-"https://study-spark-ai-client.vercel.app"
+"https://study-spark-ai-client.vercel.app/workspace"
 ]
 // Enable CORS for all routes
 app.use(cors({
