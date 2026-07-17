@@ -297,18 +297,18 @@ Fully optimized for:
 
 ## ⏱️ Time Spent
 
-Approximately **10–12 hours** total:
+Approximately **8 hours** total:
 
 | Task | Time |
 | :--- | :--- |
 | Project Planning | 30 mins |
 | UI Development | 2.5 hrs |
-| Backend Development | 2 hrs |
-| Gemini Integration | 2.5 hrs |
-| Learning Modes | 1 hr |
-| Error Handling | 1 hr |
-| Testing & Debugging | 1.5 hrs |
-| Documentation | 30 mins |
+| Backend Development | 1.5 hrs |
+| Gemini Integration | 1.5 hrs |
+| Learning Modes | 45 mins |
+| Error Handling | 45 mins |
+| Testing & Debugging | 1 hr |
+| Documentation | 15 mins |
 
 ---
 
@@ -317,7 +317,7 @@ Approximately **10–12 hours** total:
 * B.Tech Computer Science (IoT)
 * Frontend Developer | AI Enthusiast
 * **GitHub**: [https://github.com/Eramfatima2004](https://github.com/Eramfatima2004)
-* **LinkedIn**: [https://linkedin.com/in/your-linkedin-profile](https://linkedin.com/in/your-linkedin-profile)
+* **LinkedIn**: [https://www.linkedin.com/in/eram-fatima-1101b6331/](https://www.linkedin.com/in/eram-fatima-1101b6331/)
 
 ---
 
