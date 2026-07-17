@@ -1,6 +1,6 @@
 
-const rawApiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8787';
-const API_URL = rawApiUrl.replace(/\/$/, '');
+const isLocal = typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
+const API_URL = isLocal ? 'http://localhost:8787' : 'https://study-spark-ai-backend.onrender.com';
 export async function generateStudySet(notes, mode, signal) {
   const response = await fetch(`${API_URL}/api/generate`, { method: 'POST', signal, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ notes, mode }) });
   if (!response.ok) {
