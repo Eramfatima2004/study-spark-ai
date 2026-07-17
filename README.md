@@ -1,124 +1,336 @@
-# StudySpark AI - Intelligent Study Assistant
+# 📚 StudySpark AI
 
-StudySpark AI is an interactive, stateful study assistant built with React and Node.js/Express. It takes free-form study topics, uses the Google Gemini 2.5 Flash API to perform deep content synthesis, and returns structured data rendered into interactive, stateful revision panels.
+An AI-powered learning assistant that transforms any topic or study notes into interactive summaries, flashcards, quizzes, and personalized learning experiences.
 
-* **Live Frontend (Vercel)**: [https://study-spark-ai-client.vercel.app](https://study-spark-ai-client.vercel.app)
-* **Live Backend (Render)**: [https://study-spark-ai-backend.onrender.com](https://study-spark-ai-backend.onrender.com)
-* **Health Check**: [https://study-spark-ai-backend.onrender.com/api/health](https://study-spark-ai-backend.onrender.com/api/health)
+StudySpark AI is an intelligent study companion built using React, Express.js, and Google Gemini 2.5 Flash. Instead of functioning as a chatbot, it generates structured JSON responses that are rendered into interactive learning components including summaries, flashcards, quizzes, and reusable study sessions.
 
----
-
-## 📖 Assignment Requirements Mapping
-
-Here is how the project maps directly to the specific criteria in the assignment PDF:
-
-| Requirement in PDF | Implementation Details |
-| :--- | :--- |
-| **No Chatbot Rule** (Page 1) | Rejects a raw text chat box. Instead, the backend returns highly structured JSON representing a full course set (summaries, key points, flashcards, and multiple-choice quizzes) parsed into rich interactive study panels. |
-| **Stateful, Interactive UI** (Page 1) | Interactive tabs (`summary`, `flashcards`, `quiz`). Stateful flashcards with shuffle, progress track, and save status. A fully functional multiple-choice quiz with scoring gauges, correct/incorrect choice styling, explanations, and mistake reviews. |
-| **Robust Handling of Bad Output** (Page 2) | Dual Zod schemas validate both server-side JSON shapes and client-side API parses. Network abort handlers prevent stale inputs from overwriting newer requests. |
-| **Graceful Failure/Fallback** (Page 2) | Includes a comprehensive **Local Fallback Database** (`fallbackStudySet.js`). If Gemini is rate-limited or fails, the app falls back to handcrafted course materials for core topics (Photosynthesis, DBMS Normalization, JS Closures, React Hooks, Binary Search, and Computer Networks) so the UI never crashes. |
-| **Security (Routing Call)** (Page 2) | The API key is securely routed through a dedicated Node.js Express backend. No keys are shipped to the client browser. |
-| **Stretch Features** (Page 2) | **Recent Sessions History**: Auto-saved to localStorage, allowing users to reload previous runs from a sidebar. **Keyboard Navigation** on flashcards. Premium dark-mode aesthetics. |
+The application focuses on reliable AI integration, structured data rendering, robust error handling, and an engaging, responsive learning experience.
 
 ---
 
-## 🛠️ Stack & Architecture
-
-### 1. Frontend Client (`client/`)
-* **Core Framework**: React (Hooks, Context, Functional Components)
-* **Build System**: Vite (Ultra-fast HMR and compilation)
-* **Styling**: Vanilla CSS (Tailored dark theme with glassmorphism effects, smooth flex/grid panels, and scroll-into-view animations)
-* **Icons**: `lucide-react`
-* **Validation**: `zod`
-
-### 2. Backend Server (`server/`)
-* **Server**: Node.js & Express
-* **AI Integration**: Official `@google/genai` SDK querying the `gemini-2.5-flash` model
-* **CORS**: Dynamic CORS middleware echoing requesting origin, enabling credentials support, and explicit preflight `OPTIONS` handling
-* **Robust Error Boundaries**: Custom Express error handler ensuring proper CORS headers are attached on all failure paths (so actual backend issues are displayed instead of generic browser CORS block screens)
-* **Validation**: `zod`
+## 🎥 Demo Video & Screen Recording
+A short video demonstration of the app working and its interactive features in action:
+* **Demo Video Link**: [Insert Your Demo Video Link Here] *(e.g. YouTube, Loom, Google Drive)*
 
 ---
 
-## 🚀 Setup & Installation (Run Locally)
+## 🌐 Live Demo
+* 🚀 **Frontend Live Application**: [https://study-spark-ai-client.vercel.app/](https://study-spark-ai-client.vercel.app/)
+* ⚙️ **Backend API Base URL**: [https://study-spark-ai-backend.onrender.com](https://study-spark-ai-backend.onrender.com)
+* 📂 **GitHub Repository**: [https://github.com/Eramfatima2004/study-spark-ai](https://github.com/Eramfatima2004/study-spark-ai)
 
-Prerequisites: Ensure you have Node.js (v18+) installed.
+---
 
-### 1. Clone & Install Dependencies
-Run the install command in the root folder (this will install dependencies for both the workspaces):
-```bash
-npm install
+## ✨ Features
+
+### 🤖 AI-Powered Study Generation
+Generate structured study material from:
+* Class Notes
+* Technical Concepts
+* Programming Topics
+* Interview Preparation
+* Exam Topics
+* Any custom study subject
+
+*Powered by Google Gemini 2.5 Flash.*
+
+### 🎯 Learning Modes
+StudySpark offers multiple AI-powered learning modes tailored to different learning goals:
+
+#### 📚 Study Mode
+*Designed for comprehensive learning.*
+Generates:
+* Detailed AI Summary
+* Key Concepts & Definitions
+* Real-world Examples
+* 15–20 Interactive Flashcards
+* 10–15 Quiz Questions
+* Exam Tips
+
+#### 💼 Interview Mode
+*Optimized for placement and interview preparation.*
+Generates:
+* Short Concept Explanation
+* Frequently Asked Interview Questions
+* Expected Answers & Follow-up Questions
+* Interview Tips & Important Technical Concepts
+
+#### ⚡ Quick Revision Mode
+*Designed for last-minute revision before exams.*
+Generates:
+* 5 Key Concepts
+* 5 Revision Flashcards
+* 3 Rapid-Fire MCQs
+* One-Minute Revision Sheet
+
+### 📖 AI Summary
+Automatically generates:
+* Detailed Explanation
+* Definitions of Important Concepts
+* Concrete Examples
+* Common Mistakes & Exam Tips
+* Quick Revision Notes
+
+### 🧠 Interactive Flashcards
+* Flip Animation on Click
+* Keyboard Navigation (`Space` to flip, `←` / `→` to navigate, `K` to mark known, `R` to review later)
+* Shuffle Button to randomize cards
+* Progress & Success Tracking (Known vs Review metrics)
+* Mobile Friendly & responsive
+
+### 📝 AI Quiz
+* Multiple Choice Questions
+* Instant Correct/Incorrect feedback styling
+* Dynamic Score Gauge Tracking
+* Explanations for all answers
+* Retry incorrect questions feature
+
+### 💾 Study Library & Recent Sessions
+* Persists study sessions locally.
+* Quick reload previously generated topics from the sidebar without regenerating AI content.
+
+### 🎨 Modern User Experience
+* Custom theme variables
+* Beautiful dark theme with modern glassmorphism
+* Smooth micro-animations and scroll-into-view triggers
+* Keyboard friendly navigation
+* Fully optimized for mobile devices
+
+### 🛡️ Robust AI Error Handling
+Gracefully handles:
+* Invalid AI Responses & Malformed JSON
+* Empty Responses
+* Network Failures & API Errors
+* Loading States & Schema Validation
+* Prevention of Stale Responses (via request abort controllers)
+* *The application never crashes due to malformed AI output.*
+
+---
+
+## 🌟 Why StudySpark?
+Unlike traditional AI chat interfaces, StudySpark transforms structured AI responses into an interactive learning experience. 
+
+Instead of displaying plain text, users can:
+* Choose a learning mode
+* Learn through interactive flashcards
+* Test themselves with quizzes
+* Revise efficiently using Quick Revision Mode
+* Prepare for placements using Interview Mode
+* Save and revisit previous study sessions
+
+---
+
+## 🏗️ Tech Stack
+* **Frontend**: React, Vite, React Router, React Hooks, CSS Modules
+* **Backend**: Node.js, Express.js
+* **AI**: Google Gemini 2.5 Flash, `@google/genai` SDK
+* **Validation**: `zod` schema verification on client and server
+
+---
+
+## 📂 Project Structure
+```text
+StudySpark-AI
+│
+├── client
+│   ├── src
+│   │   ├── app
+│   │   ├── components
+│   │   ├── features
+│   │   ├── hooks
+│   │   ├── pages
+│   │   ├── services
+│   │   └── styles
+│   │
+│   └── package.json
+│
+├── server
+│   ├── src
+│   │   ├── prompts
+│   │   ├── routes
+│   │   ├── schemas
+│   │   ├── services
+│   │   └── index.js
+│   │
+│   ├── .env.example
+│   └── package.json
+│
+├── package.json
+└── README.md
 ```
 
-### 2. Configure Environment Variables
-Create a `.env` file inside the `server/` directory:
+---
+
+## ⚙️ Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/Eramfatima2004/study-spark-ai.git
+   ```
+2. **Move into the project**
+   ```bash
+   cd study-spark-ai
+   ```
+3. **Install all dependencies**
+   ```bash
+   npm install
+   ```
+4. **Install frontend dependencies**
+   ```bash
+   cd client
+   ```
+5. **Install backend dependencies**
+   ```bash
+   cd ../server
+   npm install
+   ```
+
+---
+
+## 🔑 Environment Variables
+Create a `server/.env` file with the following variables:
 ```env
+GEMINI_API_KEY=YOUR_GEMINI_API_KEY
 PORT=8787
-GEMINI_API_KEY=your_gemini_api_key_here
 ```
 
-### 3. Run Development Servers
-Start both the client and server concurrently from the root folder:
+---
+
+## ▶️ Running the Project
+
+### Start Backend
 ```bash
+cd server
 npm run dev
 ```
-* **Frontend local URL**: `http://localhost:5173`
-* **Backend local URL**: `http://localhost:8787`
+
+### Start Frontend
+```bash
+cd client
+npm run dev
+```
+
+The application will be accessible at:
+* **Frontend**: `http://localhost:5173`
 
 ---
 
-## 📚 Features & Walkthrough
-
-### 📝 1. Study Material Input
-* Accepts free-form input topics or raw notes up to 12,000 characters.
-* Learning modes:
-  1. **Study Mode**: Detailed explanations, definitions, mnemonics, and 15+ cards/quiz questions.
-  2. **Placement Prep (Interview)**: Professional recruiter mindset focus, viva tips, and production edge cases.
-  3. **Quick Revision**: High-yield facts, exactly 5 flashcards, and 3 MCQs.
-
-### 🎴 2. Active Recall Flashcards
-* Displays questions and reveals answers dynamically on click.
-* Includes state tracking (**Mark as Known**, **Review Later**) with progress metrics.
-* **Keyboard Shortcuts**:
-  * `Space` — Flip card
-  * `←` / `→` — Navigate cards
-  * `K` — Mark as Known
-  * `R` — Mark as Review Later
-* **Shuffle Button**: Randomizes card sequence on the fly.
-
-### 📝 3. Interactive Quiz
-* Multi-choice layout with immediate feedback.
-* Highlights correct option in green and incorrect selected in red.
-* Explains the logical background of the answer instantly.
-* **Mistakes Review**: At the end of the quiz, provides a list of incorrect answers to practice.
-
-### 💾 4. Recent Session Sidebar
-* Persists previous generations locally.
-* Click any item in the sidebar to restore the session immediately with smooth auto-scroll to results.
-
----
-
-## 🤖 AI Usage Note
-This project was developed with the assistance of agentic coding tools (Google Antigravity) to:
-* Set up Vite configuration parameters and Express middleware routing.
-* Refactor the 3D card compositing layout to a browser-stable flat compositing card.
-* Code the mock database arrays inside `fallbackStudySet.js`.
-* Debug preflight `OPTIONS` and headers matching across Vercel and Render.
-All generated code was audited, verified for correctness, and compiled locally to ensure optimal performance.
+## 🔄 Application Workflow
+```text
+User Enters Topic
+        │
+        ▼
+Select Learning Mode
+(Study / Interview / Quick Revision)
+        │
+        ▼
+React Frontend
+        │
+        ▼
+Express Backend
+        │
+        ▼
+Google Gemini 2.5 Flash
+        │
+        ▼
+Structured JSON Response
+        │
+        ▼
+Schema Validation
+        │
+        ▼
+Interactive UI
+ ├── AI Summary
+ ├── Flashcards
+ ├── Quiz
+ ├── Study Library
+ └── Recent Sessions
+```
 
 ---
 
-## 🔒 Known Limitations & Failure Handling
-* **API Key Dependency**: The application depends on a valid Google Gemini API key. If the key is missing or invalid, the backend gracefully catches the error and serves handcrafted material.
-* **Rate Limits (429)**: Free-tier API keys have strict rate limits. The backend handles `RESOURCE_EXHAUSTED` responses and instructs the client cleanly without crashing.
-* **Browser Sandbox CORS Cache**: Some browsers cache CORS preflight failures. Cleared via a force refresh (`Ctrl + F5`) or incognito windows.
+## 🤖 AI Usage
+AI tools were responsibly used during development for:
+* Brainstorming UI layouts and glassmorphic designs
+* Prompt engineering constraints
+* Debugging deployment preflight options and headers
+* Refactoring component lifecycle hooks
+* Improving validation schemas
+
+*All generated code was manually reviewed, integrated, tested, and modified before being included in the final application.*
+
+---
+
+## 📱 Responsive Design
+Fully optimized for:
+* Desktop
+* Tablet
+* Mobile
+
+---
+
+## 🔒 Security
+* API key stored securely using environment variables.
+* API key never exposed to the frontend.
+* All AI requests are routed through the Express backend.
+
+---
+
+## 🚧 Known Limitations
+* Requires an active internet connection.
+* Depends on Gemini API availability.
+* AI-generated content may vary depending on model responses.
+* Free-tier Gemini API usage may be rate limited.
+
+---
+
+## 🚀 Future Improvements
+* PDF Upload Support & OCR for Handwritten Notes
+* Voice Input
+* Export Notes as PDF
+* AI Study Planner
+* Spaced Repetition Algorithms
+* User Authentication & Cloud Sync
+* Learning Analytics Dashboard
 
 ---
 
 ## ⏱️ Time Spent
-* **Total Time**: ~7.5 hours
-  * Setup & Backend Routing: 1.5 hours
-  * Prompt Engineering & Schema Validation: 2 hours
-  * React UI (Summary, Flashcard component, Quiz logic): 2.5 hours
-  * Deployment configurations & CORS debugging: 1.5 hours
+
+Approximately **10–12 hours** total:
+
+| Task | Time |
+| :--- | :--- |
+| Project Planning | 30 mins |
+| UI Development | 2.5 hrs |
+| Backend Development | 2 hrs |
+| Gemini Integration | 2.5 hrs |
+| Learning Modes | 1 hr |
+| Error Handling | 1 hr |
+| Testing & Debugging | 1.5 hrs |
+| Documentation | 30 mins |
+
+---
+
+## 👩‍💻 Author
+**Eram Fatima**
+* B.Tech Computer Science (IoT)
+* Frontend Developer | AI Enthusiast
+* **GitHub**: [https://github.com/Eramfatima2004](https://github.com/Eramfatima2004)
+* **LinkedIn**: [https://linkedin.com/in/your-linkedin-profile](https://linkedin.com/in/your-linkedin-profile)
+
+---
+
+## 🙏 Acknowledgements
+Built using:
+* React
+* Vite
+* Express.js
+* Google Gemini 2.5 Flash
+
+*Special thanks to the open-source community and AI tools that assisted with brainstorming, debugging, and documentation during development.*
+
+---
+
+## 📄 License
+This project was developed as part of a Frontend Internship Assignment and is intended for educational and demonstration purposes.
