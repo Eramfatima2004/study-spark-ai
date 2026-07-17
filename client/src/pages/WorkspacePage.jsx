@@ -1,4 +1,4 @@
-import { AlertTriangle, BookOpen, LayoutDashboard, Sparkles, Trash2 } from 'lucide-react';
+import { AlertTriangle, BookOpen, LayoutDashboard, Sparkles, Trash2, Menu, X } from 'lucide-react';
 import { useContext, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { AppContext } from '../app/AppProvider';
@@ -9,6 +9,7 @@ import { Quiz } from '../features/quiz/Quiz';
 import { Summary } from '../features/summary/Summary';
 import { useGeneration } from '../hooks/useGeneration';
 
+
 export function WorkspacePage() {
   const [notes, setNotes] = useState('');
   const [data, setData] = useState(null);
@@ -16,6 +17,7 @@ export function WorkspacePage() {
   const [bookmarks, setBookmarks] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchQuery, setSearchQuery] = useState('');
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const { sessions, setSessions } = useContext(AppContext);
   const { generate, status, error } = useGeneration();
@@ -23,6 +25,7 @@ export function WorkspacePage() {
   const activeView = searchParams.get('view') || 'workspace';
 
   const setView = (v) => {
+    setSidebarOpen(false);
     if (v === 'workspace') {
       setSearchParams({});
     } else {
@@ -52,6 +55,7 @@ export function WorkspacePage() {
   };
 
   const restore = s => {
+    setSidebarOpen(false);
     setData(s.data);
     setTab('summary');
     setView('workspace');
@@ -78,10 +82,18 @@ export function WorkspacePage() {
 
   return (
     <div className="workspace">
-      <aside className="workspace-sidebar">
-        <a href="/" className="side-brand">
-          <Sparkles size={18}/> StudySpark
-        </a>
+      {sidebarOpen && <div className="sidebar-overlay" onClick={() => setSidebarOpen(false)} />}
+      
+      <aside className={`workspace-sidebar ${sidebarOpen ? 'is-open' : ''}`}>
+        <div className="sidebar-header">
+          <a href="/" className="side-brand">
+            <Sparkles size={18}/> StudySpark
+          </a>
+          <button className="mobile-menu-close" onClick={() => setSidebarOpen(false)} aria-label="Close menu">
+            <X size={20} />
+          </button>
+        </div>
+        
         <nav>
           <button className={activeView === 'workspace' ? 'active' : ''} onClick={() => setView('workspace')}>
             <LayoutDashboard size={17}/> Workspace
@@ -114,6 +126,16 @@ export function WorkspacePage() {
       </aside>
 
       <main className="workspace-main">
+        <div className="mobile-top-bar">
+          <button className="mobile-menu-toggle" onClick={() => setSidebarOpen(true)} aria-label="Open menu">
+            <Menu size={20} />
+          </button>
+          <span className="mobile-brand">
+            <Sparkles size={16} className="text-purple-400" /> StudySpark
+          </span>
+          <ThemeToggle />
+        </div>
+
         {activeView === 'library' ? (
           <section className="library-view">
             <div className="library-header-row">
@@ -170,7 +192,9 @@ export function WorkspacePage() {
                 <p className="kicker">Workspace</p>
                 <h1>Make your next revision count.</h1>
               </div>
-              <ThemeToggle />
+              <div className="desktop-theme-toggle">
+                <ThemeToggle />
+              </div>
             </header>
             <StudyInput notes={notes} onNotesChange={setNotes} onGenerate={submit} loading={status === 'loading'} />
             {status === 'loading' && <LoadingState />}
@@ -199,6 +223,8 @@ export function WorkspacePage() {
     </div>
   );
 }
+
+
 
 function LoadingState() {
   return (

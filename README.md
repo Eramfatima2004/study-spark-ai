@@ -19,8 +19,6 @@ https://your-backend-url.onrender.com
 ### 📂 GitHub Repository
 https://github.com/Eramfatima2004/study-spark-ai
 
-### 🎥 Demo Video
-https://your-demo-video-link
 
 ---
 
@@ -260,18 +258,6 @@ Interactive UI
 
 ---
 
-# 📸 Screenshots
-
-Add screenshots of:
-
-- Landing Page
-- Workspace
-- AI Summary
-- Flashcards
-- Quiz
-- Study Library
-
----
 
 # 🤖 AI Usage
 
@@ -375,7 +361,7 @@ https://linkedin.com/in/your-linkedin-profile
 
 ---
 
-## ❤️ Acknowledgements
+## Acknowledgements
 
 Built using:
 
@@ -384,7 +370,7 @@ Built using:
 - Google Gemini 2.5 Flash
 - Vite
 
-Created with ❤️ by **Eram Fatima**
+Created by **Eram Fatima**
 
 ---
 

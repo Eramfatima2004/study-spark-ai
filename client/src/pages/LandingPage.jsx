@@ -124,7 +124,7 @@ export function LandingPage() {
       {/* Testimonials Section */}
       <section className="testimonials-section">
         <p className="kicker"><Sparkles size={14} /> Student Testimonials</p>
-        <h2>Loved by university and school students</h2>
+        <h2>Illustrative testimonials for demonstration purposes.</h2>
         <div className="testimonials-grid">
           {testimonials.map((t, idx) => (
             <article className="testimonial-card" key={idx}>
