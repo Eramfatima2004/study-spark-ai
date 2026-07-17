@@ -37,7 +37,7 @@ export async function createStudySet(notes, mode = 'study') {
 
       const result = await ai.models.generateContent({
         model: modelName,
-        contents: notes,
+        contents: `Generate a complete, high-quality, and highly detailed study set for the topic: "${notes}". Do NOT generate generic learning advice (like Active Recall, Spaced Repetition, or Feynman Technique) unless the topic itself is explicitly about learning techniques. Focus 100% on the academic and technical facts of "${notes}".`,
         config: {
           systemInstruction: activeSystemInstruction,
           responseMimeType: 'application/json',

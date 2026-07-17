@@ -10,6 +10,7 @@ export function createFallbackStudySet(notes, mode = 'study') {
   const isClosures = normalized.includes('closure') || normalized.includes('lexical') || normalized.includes('scope');
   const isHooks = normalized.includes('hook') || normalized.includes('react') || normalized.includes('state');
   const isBinarySearch = normalized.includes('binary') || normalized.includes('search') || normalized.includes('algorithm');
+  const isNetworks = normalized.includes('network') || normalized.includes('osi') || normalized.includes('tcp') || normalized.includes('ip') || normalized.includes('routing') || normalized.includes('switch') || normalized.includes('subnet') || normalized.includes('dns') || normalized.includes('http');
 
   // Helper to compile final set based on mode
   const compileSet = (studyData, interviewData, revisionData) => {
@@ -634,7 +635,157 @@ Binary search checks midpoints to locate targets in sorted arrays, cutting searc
     return compileSet(studySet, interviewSet, revisionSet);
   }
 
-  // 6. GENERAL REVISION FALLBACK DATASETS
+  // 6. COMPUTER NETWORKS DATASETS
+  if (isNetworks) {
+    const studySet = {
+      title: "Computer Networks: OSI Model, TCP/IP & Routing Protocols",
+      description: "An academic study set covering network architectures, the 7-layer OSI model, TCP/IP suite, IP addressing, routing vs switching, and common protocols.",
+      summary: `### Detailed Explanation
+Computer Networks are collections of interconnected nodes that communicate using standard protocols to share resources. The network architecture is conceptually structured using layered models:
+1. **OSI Model (7 Layers)**: Physical, Data Link, Network, Transport, Session, Presentation, Application. Each layer serves the layer above it and is served by the layer below.
+2. **TCP/IP Model (4/5 Layers)**: Network Access, Internet, Transport, Application.
+
+Key operations include:
+- **Routing vs Switching**: Switches operate at the Data Link Layer (Layer 2) to forward packets within a single local network using MAC addresses. Routers operate at the Network Layer (Layer 3) to route packets across multiple networks using IP addresses.
+- **IP Addressing & Subnetting**: IP addresses (IPv4/IPv6) uniquely identify host interfaces. Subnetting uses subnet masks to logically divide a single network into smaller, efficient subnets.
+- **Reliable Transport (TCP)**: Provides connection-oriented, ordered, flow-controlled, and error-checked byte stream delivery.
+- **Application Protocols**: DNS translates human-readable domain names to IP addresses. HTTP/HTTPS transfers structured hypermedia documents.
+
+### Important Definitions
+- **OSI Model**: Open Systems Interconnection, a conceptual framework standardizing network communication functions.
+- **TCP/IP Suite**: The conceptual model and set of communications protocols used on the Internet.
+- **Subnet Mask**: A 32-bit number used to identify the network and host portions of an IP address.
+- **Router**: A Layer 3 device that forwards data packets between computer networks.
+- **Switch**: A Layer 2 device that connects devices on a computer network and uses packet switching to forward data.
+- **DNS**: Domain Name System, the phonebook of the Internet.
+
+### Common Mistakes
+- **Confusing Layer 2 and Layer 3**: Remembering that switches use MAC addresses at Layer 2, while routers use IP addresses at Layer 3.
+- **Assuming TCP is the only transport protocol**: UDP (User Datagram Protocol) is a key transport layer protocol that provides connectionless, lightweight, but unreliable delivery (e.g. for streaming/DNS).
+
+### Exam Tips
+- **List the OSI layers**: Learn the mnemonic: "Please Do Not Throw Sausage Pizza Away" (Physical, Data Link, Network, Transport, Session, Presentation, Application).
+- **Understand port numbers**: Know HTTP (80), HTTPS (443), DNS (53), SSH (22), and FTP (20/21).
+
+### Mnemonics
+- **OSI Layers (Bottom to Top)**: **P**lease **D**o **N**ot **T**hrow **S**ausage **P**izza **A**way (Physical, Data Link, Network, Transport, Session, Presentation, Application).
+
+### Real-World Examples
+- **Web Browsing**: When you access a website, your browser does a DNS lookup over UDP port 53, establishes a TCP connection via the 3-way handshake over port 443, and sends HTTPS requests to retrieve the site's assets.`,
+      keyPoints: [
+        "The OSI model has 7 layers, whereas the TCP/IP model has 4 or 5 layers.",
+        "Switches forward frames using MAC addresses at Layer 2 (Data Link).",
+        "Routers route packets using IP addresses at Layer 3 (Network).",
+        "Subnetting splits a network to reduce broadcast domains and conserve IP space.",
+        "TCP is connection-oriented and reliable; UDP is connectionless and fast.",
+        "DNS translates domain names like example.com to numeric IP addresses."
+      ],
+      flashcards: [
+        { id: 1, question: "What are the 7 layers of the OSI model in order from bottom to top?", answer: "Physical, Data Link, Network, Transport, Session, Presentation, Application." },
+        { id: 2, question: "At which layer of the OSI model do routers operate?", answer: "The Network Layer (Layer 3)." },
+        { id: 3, question: "At which layer of the OSI model do switches operate?", answer: "The Data Link Layer (Layer 2)." },
+        { id: 4, question: "What is the primary difference between TCP and UDP?", answer: "TCP is connection-oriented, ordered, and reliable. UDP is connectionless, unordered, and unreliable but faster." },
+        { id: 5, question: "What port number does the Domain Name System (DNS) use?", answer: "Port 53 (typically over UDP)." },
+        { id: 6, question: "What does the abbreviation DHCP stand for and what is its purpose?", answer: "Dynamic Host Configuration Protocol; it dynamically assigns IP addresses and network parameters to devices." },
+        { id: 7, question: "What is a MAC address?", answer: "Media Access Control address, a unique physical identifier assigned to a network interface controller (NIC) at Layer 2." },
+        { id: 8, question: "What is the purpose of subnetting?", answer: "To divide a large IP network into smaller, logical sub-networks to control broadcast traffic and improve security/address management." },
+        { id: 9, question: "Explain the TCP 3-way handshake process.", answer: "The client sends a SYN packet, the server responds with a SYN-ACK packet, and the client sends an ACK packet to establish a connection." },
+        { id: 10, question: "What is the difference between IPv4 and IPv6 address lengths?", answer: "IPv4 addresses are 32 bits long (4 bytes), while IPv6 addresses are 128 bits long (16 bytes)." },
+        { id: 11, question: "What layer of the OSI model does encryption/decryption belong to?", answer: "The Presentation Layer (Layer 6)." },
+        { id: 12, question: "What is the difference between routing and switching?", answer: "Switching moves data packets within the same local area network (LAN) at Layer 2. Routing moves packets across different networks at Layer 3." },
+        { id: 13, question: "What protocol is used to map an IP address to a physical MAC address?", answer: "ARP (Address Resolution Protocol)." },
+        { id: 14, question: "What port numbers are assigned to HTTP and HTTPS?", answer: "HTTP uses port 80; HTTPS uses port 443." },
+        { id: 15, question: "What is a default gateway?", answer: "The node on a computer network that serves as an access point to another network when no other route matches an IP destination." },
+        { id: 16, question: "What is the function of the Transport Layer?", answer: "Providing end-to-end communication services, flow control, error recovery, and multiplexing (ports)." }
+      ],
+      quiz: [
+        {
+          id: 1,
+          question: "Which of the following layers of the OSI model is responsible for routing packets across networks?",
+          options: ["Data Link Layer", "Network Layer", "Transport Layer", "Physical Layer"],
+          correctAnswer: "Network Layer",
+          explanation: "The Network Layer (Layer 3) handles logical addressing (IP) and routing packets across different networks."
+        },
+        {
+          id: 2,
+          question: "Which TCP/IP protocol is used to dynamically assign IP addresses to devices on a network?",
+          options: ["DNS", "DHCP", "ARP", "ICMP"],
+          correctAnswer: "DHCP",
+          explanation: "DHCP (Dynamic Host Configuration Protocol) automatically assigns IP addresses and configuration parameters to network devices."
+        },
+        {
+          id: 3,
+          question: "What is the correct order of the TCP 3-way handshake?",
+          options: ["SYN, ACK, SYN-ACK", "SYN, SYN-ACK, ACK", "ACK, SYN, SYN-ACK", "SYN-ACK, SYN, ACK"],
+          correctAnswer: "SYN, SYN-ACK, ACK",
+          explanation: "The TCP connection starts with client sending SYN, server responding with SYN-ACK, and client concluding with ACK."
+        },
+        {
+          id: 4,
+          question: "Which of the following ports is used by secure web traffic (HTTPS)?",
+          options: ["80", "22", "53", "443"],
+          correctAnswer: "443",
+          explanation: "HTTPS uses port 443 by default, whereas standard unencrypted HTTP uses port 80."
+        },
+        {
+          id: 5,
+          question: "At which OSI layer does a standard network switch operate?",
+          options: ["Physical Layer", "Data Link Layer", "Network Layer", "Session Layer"],
+          correctAnswer: "Data Link Layer",
+          explanation: "Standard Layer 2 switches operate at the Data Link Layer, forwarding frames using MAC addresses."
+        },
+        {
+          id: 6,
+          question: "Which transport protocol is connectionless and does not guarantee packet delivery?",
+          options: ["TCP", "UDP", "FTP", "SMTP"],
+          correctAnswer: "UDP",
+          explanation: "UDP (User Datagram Protocol) is a lightweight, connectionless protocol that does not guarantee delivery or packet order, unlike TCP."
+        }
+      ]
+    };
+
+    const interviewSet = {
+      title: "Placement Prep: Computer Networks & Viva Prep",
+      description: "Placement interview preparation focusing on technical concepts, viva questions, and production scenarios for Computer Networks.",
+      summary: `### Detailed Explanation
+Prepare for technical interview questions on Computer Networks by reviewing conceptual foundations, practical design trade-offs, and production implementation details.
+
+### Exam Tips
+- **Interview Answers**: When explaining DNS or the TCP handshake, define it clearly in one sentence first. Then provide a real-world example of how a browser uses it.
+- **Edge Cases**: Be prepared to discuss differences between TCP and UDP, and how congestion control works in TCP.
+
+### Real-World Examples
+- **Production Integration**: Real-world software architectures use HTTP/2 or gRPC over HTTP/TCP to multiplex connection channels and reduce latency.`,
+      keyPoints: studySet.keyPoints.slice(0, 3),
+      flashcards: studySet.flashcards.map((f, i) => ({
+        id: f.id,
+        question: `Common interview question: How does Computer Networks relate to concept #${i + 1}?`,
+        answer: `Explain that Computer Networks addresses this by defining clear parameters for concept #${i + 1}, ensuring write safety and execution safety.`
+      })),
+      quiz: studySet.quiz
+    };
+
+    const revisionSet = {
+      title: "One-Minute Revision: Computer Networks",
+      description: "A rapid-fire revision sheet summarizing key points and core concepts for Computer Networks.",
+      summary: `### Detailed Explanation
+Quick revision notes for Computer Networks to build core retrieval strength.
+
+### Important Definitions
+- **OSI Model**: Open Systems Interconnection framework of 7 layers.
+- **TCP/IP Model**: The 4/5 layer protocol suite powering the Internet.
+- **Subnetting**: Dividing network ranges into smaller, efficient subnets.
+- **Switching**: Layer 2 frame forwarding using MAC addresses.
+- **Routing**: Layer 3 packet forwarding using IP addresses.`,
+      keyPoints: studySet.keyPoints.slice(0, 4),
+      flashcards: studySet.flashcards.slice(0, 5),
+      quiz: studySet.quiz.slice(0, 3)
+    };
+
+    return compileSet(studySet, interviewSet, revisionSet);
+  }
+
+  // 7. GENERAL REVISION FALLBACK DATASETS
   const studySet = {
     title: `Study Session: ${topic}`,
     description: `A detailed, academically rigorous study guide on ${topic} designed for comprehensive revision.`,
