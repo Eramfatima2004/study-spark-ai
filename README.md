@@ -316,8 +316,8 @@ Approximately **8 hours** total:
 **Eram Fatima**
 * B.Tech Computer Science (IoT)
 * Frontend Developer | AI Enthusiast
-* **GitHub**: [https://github.com/Eramfatima2004](https://github.com/Eramfatima2004)
-* **LinkedIn**: [https://www.linkedin.com/in/eram-fatima-1101b6331/](https://www.linkedin.com/in/eram-fatima-1101b6331/)
+* **GitHub**: [GitHub](https://github.com/Eramfatima2004)
+* **LinkedIn**: [LinkedIn](https://www.linkedin.com/in/eram-fatima-1101b6331/)
 
 ---
 
