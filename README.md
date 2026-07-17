@@ -10,7 +10,7 @@ The application focuses on reliable AI integration, structured data rendering, r
 
 ## 🎥 Demo Video & Screen Recording
 A short video demonstration of the app working and its interactive features in action:
-* **Demo Video Link**: [Insert Your Demo Video Link Here] *(e.g. YouTube, Loom, Google Drive)*
+* **Demo Video Link**: https://drive.google.com/file/d/1QygNnnKsD0W6e4rb5m15A8GzeBrL9Zaq/view?usp=drivesdk
 
 ---
 
@@ -43,8 +43,8 @@ Generates:
 * Detailed AI Summary
 * Key Concepts & Definitions
 * Real-world Examples
-* 15–20 Interactive Flashcards
-* 10–15 Quiz Questions
+* 14-16 Interactive Flashcards
+* 5-6 Quiz Questions
 * Exam Tips
 
 #### 💼 Interview Mode
@@ -328,7 +328,7 @@ Built using:
 * Express.js
 * Google Gemini 2.5 Flash
 
-*Special thanks to the open-source community and AI tools that assisted with brainstorming, debugging, and documentation during development.*
+
 
 ---
 
