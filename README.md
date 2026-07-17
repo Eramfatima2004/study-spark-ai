@@ -15,9 +15,9 @@ A short video demonstration of the app working and its interactive features in a
 ---
 
 ## 🌐 Live Demo
-* 🚀 **Frontend Live Application**: [https://study-spark-ai-client.vercel.app/](https://study-spark-ai-client.vercel.app/)
-* ⚙️ **Backend API Base URL**: [https://study-spark-ai-backend.onrender.com](https://study-spark-ai-backend.onrender.com)
-* 📂 **GitHub Repository**: [https://github.com/Eramfatima2004/study-spark-ai](https://github.com/Eramfatima2004/study-spark-ai)
+* 🚀 **Frontend Live Application**: [Vercel Deployment](https://study-spark-ai-client.vercel.app/)
+* ⚙️ **Backend API Base URL**: [Render API](https://study-spark-ai-backend.onrender.com)
+* 📂 **GitHub Repository**: [GitHub Repo](https://github.com/Eramfatima2004/study-spark-ai)
 
 ---
 
