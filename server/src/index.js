@@ -5,10 +5,17 @@ import { generateRouter } from './routes/generate.js';
 
 const app = express();
 
+
+const allowedOrigins=[
+  "http:localhost:5178",
+"https://study-spark-ai-client.vercel.app"
+]
 // Enable CORS for all routes
 app.use(cors({
-  origin: true,
-  credentials: true
+  origin: allowedOrigins.length > 0 ? allowedOrigins : "*",
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"]
 }));
 
 // Handle OPTIONS preflight requests globally

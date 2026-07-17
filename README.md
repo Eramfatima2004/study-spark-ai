@@ -8,12 +8,10 @@ The application focuses on reliable AI integration, structured data rendering, r
 
 🌐 Live Demo
 🚀 Frontend
-
 Live Application
-https://your-frontend-url.vercel.app
+https://study-spark-ai-client.vercel.app/
 
 ⚙️ Backend API
-
 API Base URL
 https://study-spark-ai-backend.onrender.com
 
