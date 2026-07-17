@@ -41,7 +41,7 @@ app.use(express.json({ limit: '1mb' }));
 
 app.use('/api', generateRouter);
 
-app.get('/api/health', (_request, response) => response.json({ status: 'ok' }));
+app.get('/api/health', (_request, response) => response.json({ status: 'ok', version: 'cors-v3' }));
 
 // Global error handler with CORS support to prevent browser from hiding server errors
 app.use((err, req, res, next) => {
