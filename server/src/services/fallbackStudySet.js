@@ -1,8 +1,9 @@
 const cleanTopic = (notes) => notes.replace(/\s+/g, ' ').trim().slice(0, 110);
 
-export function createFallbackStudySet(notes) {
+export function createFallbackStudySet(notes, mode = 'study') {
   const topic = cleanTopic(notes);
   const normalized = topic.toLowerCase();
+  const activeMode = String(mode || 'study').toLowerCase();
 
   const isPhotosynthesis = normalized.includes('photo') || normalized.includes('synth');
   const isDbms = normalized.includes('normal') || normalized.includes('dbms') || normalized.includes('database');
@@ -10,8 +11,41 @@ export function createFallbackStudySet(notes) {
   const isHooks = normalized.includes('hook') || normalized.includes('react') || normalized.includes('state');
   const isBinarySearch = normalized.includes('binary') || normalized.includes('search') || normalized.includes('algorithm');
 
+  // Helper to compile final set based on mode
+  const compileSet = (studyData, interviewData, revisionData) => {
+    if (activeMode === 'interview') {
+      return {
+        title: interviewData.title,
+        description: interviewData.description,
+        summary: interviewData.summary,
+        keyPoints: interviewData.keyPoints,
+        flashcards: interviewData.flashcards,
+        quiz: interviewData.quiz
+      };
+    } else if (activeMode === 'revision') {
+      return {
+        title: revisionData.title,
+        description: revisionData.description,
+        summary: revisionData.summary,
+        keyPoints: revisionData.keyPoints,
+        flashcards: revisionData.flashcards.slice(0, 5),
+        quiz: revisionData.quiz.slice(0, 3)
+      };
+    } else {
+      return {
+        title: studyData.title,
+        description: studyData.description,
+        summary: studyData.summary,
+        keyPoints: studyData.keyPoints,
+        flashcards: studyData.flashcards,
+        quiz: studyData.quiz
+      };
+    }
+  };
+
+  // 1. PHOTOSYNTHESIS DATASETS
   if (isPhotosynthesis) {
-    return {
+    const studySet = {
       title: "Photosynthesis: Light Reactions & Calvin Cycle",
       description: "An academic study set explaining the biochemical pathway of converting solar energy, water, and CO2 into glucose and oxygen.",
       summary: `### Detailed Explanation
@@ -40,7 +74,6 @@ The reaction has two key stages:
 
 ### Real-World Examples
 - **Crop Yield Optimization**: Greenhouse growers artificially enrich carbon dioxide levels (CO2 fertilization) to accelerate Calvin cycle carbon fixation rates.`,
-      
       keyPoints: [
         "Light reactions occur in the thylakoid membranes of chloroplasts.",
         "Calvin cycle operates in the stroma, fixing inorganic CO2 into G3P.",
@@ -49,7 +82,6 @@ The reaction has two key stages:
         "ATP and NADPH are synthesized in the light reactions to power the Calvin cycle.",
         "RuBisCO fixes carbon dioxide by binding it to RuBP."
       ],
-
       flashcards: [
         { id: 1, question: "Where do light reactions occur?", answer: "In the thylakoid membranes of the chloroplast." },
         { id: 2, question: "Where does the Calvin cycle take place?", answer: "In the stroma of the chloroplast." },
@@ -68,7 +100,6 @@ The reaction has two key stages:
         { id: 15, question: "What are stomata?", answer: "Microscopic pores on plant leaves that regulate the entry of CO2 and exit of O2 and water vapor." },
         { id: 16, question: "What is photorespiration?", answer: "A wasteful pathway where RuBisCO fixes oxygen instead of carbon dioxide, reducing photosynthetic efficiency." }
       ],
-
       quiz: [
         { id: 1, question: "Which chloroplast structure hosts the light-dependent reactions?", options: ["Stroma", "Thylakoid Membrane", "Outer Membrane", "Cristae"], correctAnswer: "Thylakoid Membrane", explanation: "The thylakoid membranes contain chlorophyll, photosystems, and the electron transport chains required for light reactions." },
         { id: 2, question: "What is the primary source of electrons replaced in Photosystem II?", options: ["Water", "Carbon Dioxide", "Glucose", "NADPH"], correctAnswer: "Water", explanation: "Photolysis splits water molecules into oxygen, protons, and electrons, replacing excited electrons in Photosystem II." },
@@ -88,10 +119,54 @@ The reaction has two key stages:
         { id: 16, question: "Which pigment acts as an accessory pigment protecting leaves from excess light?", options: ["Chlorophyll a", "Carotenoids", "RuBisCO", "Cytochrome"], correctAnswer: "Carotenoids", explanation: "Carotenoids act as accessory pigments that absorb excess light energy and dissipate it safely to prevent leaf damage." }
       ]
     };
+
+    const interviewSet = {
+      title: "Placement Viva: Photosynthesis & Plant Biochemistry",
+      description: "Placement interview preparation on photosynthesis pathway steps, photosystems, enzyme RuBisCO, and efficiency comparisons.",
+      summary: `### Detailed Explanation
+In agricultural engineering and botany viva rounds, candidates are expected to detail the mechanics of photosynthesis, especially the kinetic constraints of RuBisCO and differences between C3 and C4 pathways. Be prepared to explain energy balances (ATP and NADPH costs) and electron flow routes.
+
+### Exam Tips
+- **Structuring the Answer**: Start with the balanced stoichiometric equation. Then, explicitly differentiate between the thylakoid (light) and stroma (dark/Calvin cycle) reactions.
+- **Handling RuBisCO constraints**: Emphasize that RuBisCO is highly inefficient due to photorespiration, which interviewers frequently check.
+
+### Real-World Examples
+- **Bioengineered Crops**: Research aims to alter RuBisCO's structure to make it more selective to CO2 over O2, boosting photosynthetic yields by 30%.`,
+      keyPoints: [
+        "Be ready to sketch the Z-scheme of light reactions.",
+        "Memorize the G3P outputs and ATP costs of the Calvin cycle.",
+        "Highlight photorespiration as the core evolutionary constraint."
+      ],
+      flashcards: [
+        { id: 1, question: "How would you explain the efficiency constraint of RuBisCO in an interview?", answer: "Explain that RuBisCO catalyzes both carboxylation and oxygenation. When fixing oxygen, it initiates photorespiration, wasting up to 25% of the plant's energy." },
+        { id: 2, question: "What is the expected answer when asked to detail the Z-scheme?", answer: "Describe it as the pathway of electron flow from water through Photosystem II, the plastoquinone pool, cytochrome b6f, plastocyanin, and Photosystem I, ending with NADP+ reductase." }
+      ].concat(studySet.flashcards.slice(2)),
+      quiz: studySet.quiz
+    };
+
+    const revisionSet = {
+      title: "One-Minute Revision: Photosynthesis",
+      description: "Quick revision deck on light reactions, Calvin cycle, pigments, and key terms.",
+      summary: `### Detailed Explanation
+Photosynthesis converts light, CO2, and H2O into glucose (C6H12O6) and oxygen (O2). It takes place inside chloroplast structures.
+
+### Important Definitions
+- **Light Reactions**: Occur in the thylakoid membranes, generating ATP and NADPH.
+- **Calvin Cycle**: Occurs in the stroma, fixing CO2 to form G3P using ATP/NADPH.
+- **Chlorophyll**: Green pigment absorbing blue and red solar light.
+- **RuBisCO**: Main enzyme responsible for fixing carbon.
+- **Photolysis**: Splitting water into oxygen and protons.`,
+      keyPoints: studySet.keyPoints.slice(0, 4),
+      flashcards: studySet.flashcards,
+      quiz: studySet.quiz
+    };
+
+    return compileSet(studySet, interviewSet, revisionSet);
   }
 
+  // 2. DBMS NORMALISATION DATASETS
   if (isDbms) {
-    return {
+    const studySet = {
       title: "DBMS Normalisation: 1NF to BCNF",
       description: "An academic study set covering functional dependencies, keys, and relational normalisation forms (1NF, 2NF, 3NF, BCNF).",
       summary: `### Detailed Explanation
@@ -115,7 +190,6 @@ Database normalisation is the systematic process of organizing a relational data
 
 ### Real-World Examples
 - **Customer Address Redundancy**: Separating user billing address structures from individual orders tables, ensuring address updates do not require scanning millions of historical orders.`,
-      
       keyPoints: [
         "1NF requires all attribute values to be atomic and no repeating groups.",
         "2NF eliminates partial functional dependencies (attributes depending on parts of composite keys).",
@@ -124,7 +198,6 @@ Database normalisation is the systematic process of organizing a relational data
         "Normalisation prevents insertion, deletion, and update anomalies.",
         "Lossless join decomposition ensures table joins retrieve the exact original dataset."
       ],
-
       flashcards: [
         { id: 1, question: "What is Database Normalisation?", answer: "The systematic process of structuring relational tables to reduce redundancy and eliminate anomalies." },
         { id: 2, question: "What is an insertion anomaly?", answer: "The inability to add a new record because some unrelated, required attributes are not yet known." },
@@ -143,11 +216,10 @@ Database normalisation is the systematic process of organizing a relational data
         { id: 15, question: "What is a lossless join decomposition?", answer: "A decomposition that guarantees joining the split relations results in the original relation." },
         { id: 16, question: "What is dependency preservation?", answer: "Ensuring all original functional dependencies can be enforced within the individual decomposed relations." }
       ],
-
       quiz: [
         { id: 1, question: "Which normal form requires all attributes to hold atomic values?", options: ["1NF", "2NF", "3NF", "BCNF"], correctAnswer: "1NF", explanation: "First Normal Form (1NF) strictly prohibits multi-valued attributes or repeating groups, requiring atomicity." },
         { id: 2, question: "A relation has a single-attribute primary key. Which normal form is it automatically in if it is in 1NF?", options: ["2NF", "3NF", "BCNF", "4NF"], correctAnswer: "2NF", explanation: "Partial dependency requires a composite primary key. With a single-attribute primary key, partial dependencies are impossible, so it is automatically in 2NF." },
-        { id: 3, question: "What type of dependency is eliminated in Third Normal Form (3NF)?", options: ["Partial dependency", "Transitive dependency", "Multi-valued dependency", "Join dependency"], correctAnswer: "Transitive dependency", explanation: "3NF is designed to remove transitive dependencies where non-prime attributes depend on other non-prime attributes." },
+        { id: 3, question: "What type of dependency is eliminated in Third Normal Form (3NF)?", options: ["Partial dependency", "Transitive dependency", "Multi-valued dependency", "Join dependency"], correctAnswer: "3NF", explanation: "3NF is designed to remove transitive dependencies where non-prime attributes depend on other non-prime attributes." },
         { id: 4, question: "Under what condition is a relation in Boyce-Codd Normal Form (BCNF)?", options: ["Every determinant is a super key", "All candidate keys are single attributes", "No partial dependencies exist", "No transitive dependencies exist"], correctAnswer: "Every determinant is a super key", explanation: "BCNF requires that for all functional dependencies X -> Y, X must be a super key of the relation." },
         { id: 5, question: "What is an insertion anomaly?", options: ["Inability to add a record due to lack of other data", "Loss of data during a deletion", "Updating one row but missing duplicates", "Having too many primary keys"], correctAnswer: "Inability to add a record due to lack of other data", explanation: "An insertion anomaly occurs when database structure prevents adding new valid facts without inserting other unrelated fields." },
         { id: 6, question: "If relation R(A, B, C) has candidate key A, and FD B -> C holds, which normal form does it violate?", options: ["1NF", "2NF", "3NF", "None"], correctAnswer: "3NF", explanation: "Since A is the key, B and C are non-prime. B -> C represents a transitive dependency (A -> B -> C), which violates 3NF." },
@@ -163,10 +235,54 @@ Database normalisation is the systematic process of organizing a relational data
         { id: 16, question: "Which normal form deals with join dependencies?", options: ["3NF", "BCNF", "4NF", "5NF"], correctAnswer: "5NF", explanation: "Fifth Normal Form (5NF), or Project-Join Normal Form (PJNF), eliminates join dependencies." }
       ]
     };
+
+    const interviewSet = {
+      title: "Placement Interview: DBMS Normalisation & System Design",
+      description: "Common placement round questions on database normalisation, BCNF violations, and denormalisation trade-offs.",
+      summary: `### Detailed Explanation
+System design and database rounds test your ability to explain normal forms clearly, prove anomalies with examples, and discuss BCNF violations. Expect questions on the exact trade-off between write-integrity (normalised) and read-performance (denormalised).
+
+### Exam Tips
+- **Explaining BCNF vs 3NF**: Differentiate by explaining that BCNF does not allow dependencies where a determinant is not a super key, even if it determines a prime attribute.
+- **Redundancy Cost**: Explain that normalised tables save write overhead and prevent anomalies, but cost query join latency.
+
+### Real-World Examples
+- **Denormalised E-Commerce Orders**: Real-world e-commerce systems often duplicate product details inside an orders table (denormalised) to prevent historic invoice modification when products change.`,
+      keyPoints: [
+        "Be ready to find candidate keys on a whiteboard.",
+        "Prepare an anomaly example (Insert/Delete/Update).",
+        "Understand why BCNF does not guarantee dependency preservation."
+      ],
+      flashcards: [
+        { id: 1, question: "How would you explain the difference between 3NF and BCNF to an interviewer?", answer: "Explain that a table is in 3NF if for every FD X -> A, either X is a super key or A is a prime attribute. BCNF strictly requires X to be a super key, ignoring the prime attribute exception." },
+        { id: 2, question: "What is your answer when asked about database anomalies?", answer: "Give an example: a composite primary key table where deleting a student's enrolled course mistakenly deletes the student's phone number (delete anomaly)." }
+      ].concat(studySet.flashcards.slice(2)),
+      quiz: studySet.quiz
+    };
+
+    const revisionSet = {
+      title: "One-Minute Revision: DBMS Normalisation",
+      description: "Quick revision notes on 1NF, 2NF, 3NF, BCNF, and keys.",
+      summary: `### Detailed Explanation
+Database normalisation organizes database tables to prevent anomalies and redundancy using functional dependencies.
+
+### Important Definitions
+- **1NF**: Atomic values, no repeating column groups.
+- **2NF**: In 1NF and no partial dependencies (composite keys).
+- **3NF**: In 2NF and no transitive dependencies.
+- **BCNF**: Every determinant must be a super key.
+- **Candidate Key**: Minimal attribute set uniquely identifying rows.`,
+      keyPoints: studySet.keyPoints.slice(0, 4),
+      flashcards: studySet.flashcards,
+      quiz: studySet.quiz
+    };
+
+    return compileSet(studySet, interviewSet, revisionSet);
   }
 
+  // 3. JAVASCRIPT CLOSURES DATASETS
   if (isClosures) {
-    return {
+    const studySet = {
       title: "JavaScript Closures & Lexical Scope",
       description: "An academic study set explaining lexical scope, closures, function environments, and common interview questions.",
       summary: `### Detailed Explanation
@@ -191,7 +307,6 @@ Lexical scoping defines how variable names are resolved in nested functions: inn
 
 ### Real-World Examples
 - **Data Encapsulation**: Creating private variables by returning inner functions that manipulate a local variable declared in an outer function.`,
-
       keyPoints: [
         "A closure retains references to its outer scope variables.",
         "Lexical scope is determined at write time (statically), not runtime.",
@@ -200,7 +315,6 @@ Lexical scoping defines how variable names are resolved in nested functions: inn
         "Stale closures occur when values inside the scope represent outdated state.",
         "Garbage collection is prevented for variables inside active closures."
       ],
-
       flashcards: [
         { id: 1, question: "What is a closure in JavaScript?", answer: "A function that has access to its outer function's scope even after the outer function has returned." },
         { id: 2, question: "What is lexical scope?", answer: "Variables declared in parent scopes are accessible to inner scopes based on code structure." },
@@ -219,7 +333,6 @@ Lexical scoping defines how variable names are resolved in nested functions: inn
         { id: 15, question: "What is nested scoping?", answer: "Function scopes declared inside other function scopes recursively." },
         { id: 16, question: "What is a module pattern?", answer: "A design pattern using closures to bundle private state with public methods." }
       ],
-
       quiz: [
         { id: 1, question: "What determines lexical scope in JavaScript?", options: ["Where the function is called", "Where the function is declared in code", "How the browser executes the thread", "The value of 'this' binding"], correctAnswer: "Where the function is declared in code", explanation: "Lexical scope is static, determined strictly by the physical position of variables and functions inside the source file." },
         { id: 2, question: "Which keyword creates a block-scoped variable that resolves loop closure issues?", options: ["var", "let", "function", "global"], correctAnswer: "let", explanation: "'let' binds variables to the block scope, creating a new binding for each iteration in loops." },
@@ -239,10 +352,54 @@ Lexical scoping defines how variable names are resolved in nested functions: inn
         { id: 16, question: "What happens if a variable is used inside a closure but never declared in scope?", options: ["It returns null", "It throws a ReferenceError", "It creates a global object", "It defaults to undefined"], correctAnswer: "It throws a ReferenceError", explanation: "If an identifier cannot be resolved along the scope chain, JavaScript throws a ReferenceError." }
       ]
     };
+
+    const interviewSet = {
+      title: "Senior JS Interview: Closures & Scope Chain",
+      description: "Advanced JavaScript placement interview prep covering execution context, scope chains, and data encapsulation patterns.",
+      summary: `### Detailed Explanation
+In JavaScript/React developer interviews, closures are a primary filter topic. Expect to write code displaying private data encapsulation, explain stale closure bugs in React hooks, and trace lexical scopes in asynchronous callbacks.
+
+### Exam Tips
+- **Exposing Private API**: When asked to build private variables, write a function declaring a local variable, and return an object exposing getter/setter closure methods.
+- **Handling stale closures**: Highlight that a closure captures values at its creation, meaning it will access outdated state if not recreated when state updates (a classic \`useEffect\` bug).
+
+### Real-World Examples
+- **Redux Store Creation**: Redux uses closures inside \`createStore\` to keep the application state private, exposing only \`getState\`, \`dispatch\`, and \`subscribe\` closure methods.`,
+      keyPoints: [
+        "Expect scoping output tracing questions.",
+        "Be ready to write a custom module pattern.",
+        "Explain memory costs and garbage collection boundaries."
+      ],
+      flashcards: [
+        { id: 1, question: "What is a live coding closure question?", answer: "Usually: 'Write a function createCounter() that returns an object with increment and getValue methods where counter is private.' Solution uses private closure variable." },
+        { id: 2, question: "How does the JS engine handle closure garbage collection?", answer: "If an inner function referencing outer variables is returned, its Lexical Environment is preserved on the heap, preventing garbage collection until the inner function is dereferenced." }
+      ].concat(studySet.flashcards.slice(2)),
+      quiz: studySet.quiz
+    };
+
+    const revisionSet = {
+      title: "One-Minute Revision: JS Closures",
+      description: "Quick revision notes on lexical scope, closure bindings, and context.",
+      summary: `### Detailed Explanation
+A closure is a function that retains access to its parent lexical scope even after the parent function has exited.
+
+### Important Definitions
+- **Closure**: Function bundled with its outer lexical environment.
+- **Lexical Scope**: Scope determined statically at write time.
+- **Execution Context**: Internal evaluation container.
+- **IIFE**: Immediate function block resolving loop scopes.
+- **Scope Chain**: Search path traversed to find variables.`,
+      keyPoints: studySet.keyPoints.slice(0, 4),
+      flashcards: studySet.flashcards,
+      quiz: studySet.quiz
+    };
+
+    return compileSet(studySet, interviewSet, revisionSet);
   }
 
+  // 4. REACT HOOKS DATASETS
   if (isHooks) {
-    return {
+    const studySet = {
       title: "React Hooks: State & Side Effects",
       description: "An academic study set covering rules of hooks, useState, useEffect, dependency arrays, and stateful side-effects.",
       summary: `### Detailed Explanation
@@ -270,7 +427,6 @@ The core hooks include:
 
 ### Real-World Examples
 - **Custom Fetch Hook**: Building a 'useFetch' hook to encapsulate loading, data, and error state logic for reuse across multiple pages.`,
-
       keyPoints: [
         "Hooks allow functional components to maintain state and lifecycle features.",
         "Hooks must only be called at the top level of your React function.",
@@ -279,7 +435,6 @@ The core hooks include:
         "Empty dependency arrays '[]' trigger useEffect only on mount and unmount.",
         "useMemo memoizes values, while useCallback memoizes functional references."
       ],
-
       flashcards: [
         { id: 1, question: "What are React Hooks?", answer: "Functions allowing state and lifecycle access from functional React components." },
         { id: 2, question: "What is the primary rule of hooks?", answer: "Hooks must only be called at the top level (not inside loops or conditions)." },
@@ -298,7 +453,6 @@ The core hooks include:
         { id: 15, question: "When does useEffect execute?", answer: "After React has completed rendering and painted updates to the screen." },
         { id: 16, question: "What is useLayoutEffect?", answer: "A hook triggering synchronously after DOM mutations but before the browser paints." }
       ],
-
       quiz: [
         { id: 1, question: "In which version of React were hooks introduced?", options: ["React 15.6", "React 16.3", "React 16.8", "React 18.0"], correctAnswer: "React 16.8", explanation: "React Hooks were introduced in version 16.8 to support stateful logic in functional components." },
         { id: 2, question: "Which of the following violates the rules of hooks?", options: ["Calling hooks inside custom hooks", "Calling hooks inside a condition block", "Calling hooks at the top level of a component", "Calling useState multiple times"], correctAnswer: "Calling hooks inside a condition block", explanation: "Hooks must always be executed in the exact same order on every render; conditional calls violate this rule." },
@@ -318,10 +472,54 @@ The core hooks include:
         { id: 16, question: "What hook generates unique IDs for accessibility attributes?", options: ["useRef", "useId", "useContext", "useImperativeHandle"], correctAnswer: "useId", explanation: "useId creates stable, unique ID strings for matching accessibility attributes." }
       ]
     };
+
+    const interviewSet = {
+      title: "React placement round: Hooks & Component Lifecycle",
+      description: "Placement interview questions on React hooks rules, dependency arrays, custom hooks, and state batching.",
+      summary: `### Detailed Explanation
+Frontend engineering and React rounds focus on hook execution mechanisms. Be ready to explain how React internally tracks hook lists, why calling hooks conditionally crashes the fiber tree, and how to avoid memory leaks in useEffect.
+
+### Exam Tips
+- **Explaining hooks ordering**: React matches hook states using a linked list keyed by execution order. Changing the order (with conditions/loops) offsets hook indexes and results in mismatched states.
+- **Handling useEffect stale states**: Explain that passing values to the dependency array forces the hook closure to rebuild with updated variables.
+
+### Real-World Examples
+- **useWindowSize Event listener**: Custom hooks listening to window sizes must unsubscribe in their cleanup block; otherwise, multiple component re-mounts attach duplicate event listeners, triggering severe browser memory leaks.`,
+      keyPoints: [
+        "Explain Fiber node hook storage lists.",
+        "Be ready to build a reusable useEventListener hook.",
+        "Detail React 18 automatic state batching behavior."
+      ],
+      flashcards: [
+        { id: 1, question: "Why can't React hooks be called inside loops or conditionals?", answer: "React relies on the strict, constant order of hook calls to match state values with internal array nodes. Calling them conditionally changes the execution order, breaking the state mapping." },
+        { id: 2, question: "What is the expected explanation of stale closures in React?", answer: "A stale closure occurs when a hook (like useEffect or useCallback) captures variables from a past render. To fix it, list the variable inside the hook's dependency array to trigger updates." }
+      ].concat(studySet.flashcards.slice(2)),
+      quiz: studySet.quiz
+    };
+
+    const revisionSet = {
+      title: "One-Minute Revision: React Hooks",
+      description: "Quick revision notes on hooks, rules, useState, and useEffect.",
+      summary: `### Detailed Explanation
+React Hooks allow function components to handle states and side-effects.
+
+### Important Definitions
+- **useState**: Declares a local state variable.
+- **useEffect**: Manages side effects and cleanups.
+- **Rules of Hooks**: Call at top-level only, from React components only.
+- **useRef**: Holds mutable references without re-renders.
+- **useMemo**: Caches computed values from calculations.`,
+      keyPoints: studySet.keyPoints.slice(0, 4),
+      flashcards: studySet.flashcards,
+      quiz: studySet.quiz
+    };
+
+    return compileSet(studySet, interviewSet, revisionSet);
   }
 
+  // 5. BINARY SEARCH DATASETS
   if (isBinarySearch) {
-    return {
+    const studySet = {
       title: "Binary Search: Algorithm & Complexity",
       description: "An academic study set covering divide-and-conquer binary search, array indexing, boundaries, and O(log n) analysis.",
       summary: `### Detailed Explanation
@@ -346,7 +544,6 @@ If the target is smaller, the search continues in the lower half; if larger, it 
 
 ### Real-World Examples
 - **Database Indexes**: Index lookups in database management systems use binary search-like operations on sorted key arrays to locate records instantly.`,
-
       keyPoints: [
         "Binary search requires the input array to be sorted beforehand.",
         "Dividing search space in half gives a time complexity of O(log n).",
@@ -355,7 +552,6 @@ If the target is smaller, the search continues in the lower half; if larger, it 
         "Recursive binary search requires O(log n) call stack space.",
         "Pointers must adjust strictly past the midpoint index."
       ],
-
       flashcards: [
         { id: 1, question: "What is Binary Search?", answer: "An efficient search algorithm that finds target values in sorted arrays by repeatedly halving the search range." },
         { id: 2, question: "What is the pre-requisite for binary search?", answer: "The input array must be sorted." },
@@ -374,7 +570,6 @@ If the target is smaller, the search continues in the lower half; if larger, it 
         { id: 15, question: "How do you search if target is smaller than mid?", answer: "Update the high pointer to 'mid - 1' to search the lower half." },
         { id: 16, question: "What condition terminates the search loop?", answer: "The loop terminates when 'low > high', indicating the target is not in the array." }
       ],
-
       quiz: [
         { id: 1, question: "What is the worst-case time complexity of binary search?", options: ["O(1)", "O(n)", "O(log n)", "O(n log n)"], correctAnswer: "O(log n)", explanation: "Each step cuts the array search space in half, resulting in logarithmic time complexity." },
         { id: 2, question: "Which structure does not support binary search efficiently?", options: ["Sorted array", "Sorted Singly Linked List", "Sorted ArrayList", "Dynamic Array"], correctAnswer: "Sorted Singly Linked List", explanation: "Linked lists do not support constant-time random access, making midpoint indexing O(n) instead of O(1)." },
@@ -394,10 +589,53 @@ If the target is smaller, the search continues in the lower half; if larger, it 
         { id: 16, question: "Which search is a variation that starts from a small jump step and doubles it?", options: ["Binary Search", "Exponential Search", "Linear Search", "Interpolation Search"], correctAnswer: "Exponential Search", explanation: "Exponential search jumps in powers of 2 to locate a range, then runs binary search within it." }
       ]
     };
+
+    const interviewSet = {
+      title: "Coding Round: Binary Search & Divide and Conquer",
+      description: "Data Structures and Algorithms placement round questions on binary search boundary bugs, pivots, and complexity proofs.",
+      summary: `### Detailed Explanation
+In DSA placement rounds, interviewers check boundary conditions. Be ready to write binary search on a whiteboard, explain why calculating midpoint as \`low + (high - low)/2\` prevents overflow, and detail how to run binary search on a rotated sorted array.
+
+### Exam Tips
+- **Handling Rotated Arrays**: Differentiate by checking which half of the array is normally sorted at each step, and target binary search checks based on that sorted range.
+- **Midpoint Overflow Explanation**: In languages with fixed integer limits, \`low + high\` can exceed $2^{31}-1$, returning a negative index. \`low + (high-low)/2\` avoids this overflow completely.
+
+### Real-World Examples
+- **Git Bisect**: Developers use binary search via \`git bisect\` to check git commits history, rapidly identifying which specific commit introduced a regression bug.`,
+      keyPoints: [
+        "Explain low + (high-low)/2 on a whiteboard.",
+        "Solve the rotated sorted array search variant.",
+        "Prove O(log n) time complexity using search space divisions."
+      ],
+      flashcards: [
+        { id: 1, question: "How do you explain the binary search integer overflow bug to an interviewer?", answer: "Explain that `(low + high) / 2` can overflow the 32-bit integer limit if the array size is very large (e.g. $2^{30}$ items). To fix it, calculate it as `low + (high - low) / 2`." },
+        { id: 2, question: "What is your answer when asked to search in a rotated sorted array?", answer: "Find the pivot index where the rotation occurs, or check if left/right halves are sorted, then conditionally apply binary search logic to the sorted half." }
+      ].concat(studySet.flashcards.slice(2)),
+      quiz: studySet.quiz
+    };
+
+    const revisionSet = {
+      title: "One-Minute Revision: Binary Search",
+      description: "Quick revision notes on binary search, space/time bounds, and mid calculations.",
+      summary: `### Detailed Explanation
+Binary search checks midpoints to locate targets in sorted arrays, cutting search space by half recursively.
+
+### Important Definitions
+- **Sorted Array**: Prerequisite input array.
+- **Logarithmic Time**: O(log n) average/worst complexity.
+- **Overflow Prevention**: Calculating mid index as low + (high-low)/2.
+- **Pointer Updates**: low = mid + 1 and high = mid - 1 boundaries.
+- **Iterative Space**: O(1) constant auxiliary space.`,
+      keyPoints: studySet.keyPoints.slice(0, 4),
+      flashcards: studySet.flashcards,
+      quiz: studySet.quiz
+    };
+
+    return compileSet(studySet, interviewSet, revisionSet);
   }
 
-  // Fallback for general revision tips with NO placeholders
-  return {
+  // 6. GENERAL REVISION FALLBACK DATASETS
+  const studySet = {
     title: `Study Session: ${topic}`,
     description: `A detailed, academically rigorous study guide on ${topic} designed for comprehensive revision.`,
     summary: `### Detailed Explanation
@@ -421,7 +659,6 @@ Active recall and spaced repetition are the most effective cognitive science tec
 
 ### Real-World Examples
 - **Supermemo and Anki**: Flashcard systems using spacing algorithms to help medical and engineering students retain thousands of complex facts.`,
-
     keyPoints: [
       `Active retrieval yields twice the retention of passive reading.`,
       "Review the flashcard deck until all cards are marked as known.",
@@ -430,13 +667,11 @@ Active recall and spaced repetition are the most effective cognitive science tec
       "Explain the key concepts to a peer in simple terms to check clarity.",
       "Re-quiz yourself periodically to track long-term retrieval."
     ],
-
     flashcards: Array.from({ length: 16 }, (_, i) => ({
       id: i + 1,
       question: `Define key active recall question #${i + 1} for ${topic}?`,
       answer: `This is explanation #${i + 1} defining the core structural parameters and relationships in ${topic}.`
     })),
-
     quiz: Array.from({ length: 16 }, (_, i) => ({
       id: i + 1,
       question: `Question #${i + 1}: Which of the following is true regarding ${topic}?`,
@@ -450,4 +685,44 @@ Active recall and spaced repetition are the most effective cognitive science tec
       explanation: `Option A is the correct answer because it directly reflects standard academic guidelines and operational facts regarding ${topic} item #${i + 1}.`
     }))
   };
+
+  const interviewSet = {
+    title: `Interview Prep: ${topic}`,
+    description: `Placement interview preparation focusing on technical concepts and viva questions for ${topic}.`,
+    summary: `### Detailed Explanation
+Prepare for technical interview questions on ${topic} by reviewing conceptual foundations, practical design trade-offs, and production implementation details.
+
+### Exam Tips
+- **Interview Answers**: When explaining ${topic}, define it clearly in one sentence first. Then provide a real-world project example.
+- **Edge Cases**: Be prepared to discuss common errors or system failures related to ${topic}.
+
+### Real-World Examples
+- **Production Integration**: Real-world software architectures implement ${topic} in distinct service modules to optimize reliability and decouple dependencies.`,
+    keyPoints: studySet.keyPoints.slice(0, 3),
+    flashcards: studySet.flashcards.map((f, i) => ({
+      id: f.id,
+      question: `Common interview question: How does ${topic} relate to concept #${i + 1}?`,
+      answer: `Explain that ${topic} addresses this by defining clear parameters for concept #${i + 1}, ensuring write safety and execution safety.`
+    })),
+    quiz: studySet.quiz
+  };
+
+  const revisionSet = {
+    title: `One-Minute Revision: ${topic}`,
+    description: `A rapid-fire revision sheet summarizing key points and core concepts for ${topic}.`,
+    summary: `### Detailed Explanation
+Quick revision notes for ${topic} to build core retrieval strength.
+
+### Important Definitions
+- **${topic} Core**: The primary operational framework defining this subject.
+- **Active Encoding**: Engaging with material actively to store it in long-term memory.
+- **Logarithmic Learning**: Focusing on high-yield facts to maximize efficiency.
+- **Feynman Review**: Summarizing concepts in simple analogies.
+- **Spacing Effect**: Reviewing over intervals to prevent decay.`,
+    keyPoints: studySet.keyPoints.slice(0, 4),
+    flashcards: studySet.flashcards,
+    quiz: studySet.quiz
+  };
+
+  return compileSet(studySet, interviewSet, revisionSet);
 }

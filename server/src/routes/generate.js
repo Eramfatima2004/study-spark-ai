@@ -12,8 +12,8 @@ generateRouter.post('/generate', async (request, response) => {
   console.log('=========================================');
 
   try {
-    const { notes } = generateRequestSchema.parse(request.body);
-    const studySet = await createStudySet(notes);
+    const { notes, mode } = generateRequestSchema.parse(request.body);
+    const studySet = await createStudySet(notes, mode);
     response.json(studySet);
   } catch (error) {
     console.error('Error in /api/generate route:', error);
@@ -39,7 +39,7 @@ generateRouter.post('/generate', async (request, response) => {
     
     if (isRateLimit) {
       console.warn('Gemini API rate limit exceeded. Using rich local fallback.');
-      return response.json(createFallbackStudySet(request.body.notes));
+      return response.json(createFallbackStudySet(request.body.notes, request.body.mode));
     }
 
     if (error.message === 'Invalid JSON returned' || error.message === 'Schema validation failed') {
@@ -52,8 +52,9 @@ generateRouter.post('/generate', async (request, response) => {
 
     if (errorStr.includes('UNAVAILABLE')) {
       console.warn('Gemini service is unavailable. Using rich local fallback.');
-      return response.json(createFallbackStudySet(request.body.notes));
+      return response.json(createFallbackStudySet(request.body.notes, request.body.mode));
     }
+
 
     // Default general error
     response.status(502).json({

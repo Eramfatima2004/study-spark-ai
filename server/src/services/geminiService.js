@@ -1,16 +1,25 @@
 import { GoogleGenAI } from '@google/genai';
 import { studySchema } from '../schemas/studySchema.js';
-import { systemInstruction } from '../prompts/studyPrompt.js';
+import { systemInstruction, interviewSystemInstruction, revisionSystemInstruction } from '../prompts/studyPrompt.js';
 const wait = (milliseconds) => new Promise((resolve) => setTimeout(resolve, milliseconds));
 
-export async function createStudySet(notes) {
+export async function createStudySet(notes, mode = 'study') {
   console.log('--- Incoming Request to Gemini Service ---');
   console.log('Notes content snippet:', notes ? (notes.length > 100 ? notes.substring(0, 100) + '...' : notes) : 'None');
   console.log('Notes total length:', notes?.length || 0);
+  console.log('Selected Learning Mode:', mode);
 
   if (!process.env.GEMINI_API_KEY) {
     console.error('API Error: GEMINI_API_KEY is missing.');
     throw new Error('CONFIGURATION');
+  }
+
+  // Select system instruction prompt based on learning mode
+  let activeSystemInstruction = systemInstruction;
+  if (mode === 'interview') {
+    activeSystemInstruction = interviewSystemInstruction;
+  } else if (mode === 'revision') {
+    activeSystemInstruction = revisionSystemInstruction;
   }
 
   const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
@@ -23,18 +32,19 @@ export async function createStudySet(notes) {
     try {
       console.log(`\n--- Gemini API Generation Attempt (API Attempts: ${apiAttempts}, JSON Attempts: ${jsonAttempts}) ---`);
       console.log('Using model:', modelName);
-      console.log('Prompt / System Instruction:', systemInstruction);
+      console.log('Prompt / System Instruction:', activeSystemInstruction);
       console.log('Prompt / User Content:', notes);
 
       const result = await ai.models.generateContent({
         model: modelName,
         contents: notes,
         config: {
-          systemInstruction,
+          systemInstruction: activeSystemInstruction,
           responseMimeType: 'application/json',
           temperature: 0.35,
         },
       });
+
 
       const rawText = result.text?.trim();
       console.log('Raw Gemini response:', rawText);

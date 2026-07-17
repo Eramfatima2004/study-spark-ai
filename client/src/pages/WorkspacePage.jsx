@@ -18,11 +18,18 @@ export function WorkspacePage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchQuery, setSearchQuery] = useState('');
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [mode, setMode] = useState('study');
 
   const { sessions, setSessions } = useContext(AppContext);
   const { generate, status, error } = useGeneration();
 
   const activeView = searchParams.get('view') || 'workspace';
+
+  const learningModes = [
+    { id: 'study', label: '📚 Study Mode', desc: 'Comprehensive learning with detailed explanations.' },
+    { id: 'interview', label: '💼 Interview Mode', desc: 'Prepare for technical interviews and placements.' },
+    { id: 'revision', label: '⚡ Quick Revision', desc: 'Fast revision before exams.' }
+  ];
 
   const setView = (v) => {
     setSidebarOpen(false);
@@ -34,7 +41,7 @@ export function WorkspacePage() {
   };
 
   const submit = async () => {
-    const result = await generate(notes, tab);
+    const result = await generate(notes, mode);
     if (result) {
       setData(result);
       setTab('summary');
@@ -51,8 +58,12 @@ export function WorkspacePage() {
       
       setSessions([newSession, ...cleanSessions]);
       setView('workspace');
+      setTimeout(() => {
+        document.querySelector('.results')?.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
     }
   };
+
 
   const restore = s => {
     setSidebarOpen(false);
@@ -63,7 +74,11 @@ export function WorkspacePage() {
     // Move to top of recent sessions (newest first, no duplicates)
     const cleanSessions = sessions.filter(x => x.id !== s.id);
     setSessions([s, ...cleanSessions]);
+    setTimeout(() => {
+      document.querySelector('.results')?.scrollIntoView({ behavior: 'smooth' });
+    }, 100);
   };
+
 
   const deleteSession = (id, e) => {
     e.stopPropagation();
@@ -196,6 +211,24 @@ export function WorkspacePage() {
                 <ThemeToggle />
               </div>
             </header>
+
+            <div className="mode-selector-container">
+              <span className="mode-selector-label">Choose Learning Mode</span>
+              <div className="mode-selector-grid">
+                {learningModes.map(m => (
+                  <button 
+                    key={m.id} 
+                    type="button" 
+                    className={`mode-card ${mode === m.id ? 'active' : ''}`}
+                    onClick={() => setMode(m.id)}
+                  >
+                    <span className="mode-title">{m.label}</span>
+                    <span className="mode-desc">{m.desc}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
             <StudyInput notes={notes} onNotesChange={setNotes} onGenerate={submit} loading={status === 'loading'} />
             {status === 'loading' && <LoadingState />}
             {error && (

@@ -1,129 +1,179 @@
-# 📚 StudySpark AI
+📚 StudySpark AI
 
-> Transform any topic or study notes into interactive AI-powered summaries, flashcards, and quizzes.
+An AI-powered learning assistant that transforms any topic or study notes into interactive summaries, flashcards, quizzes, and personalized learning experiences.
 
-StudySpark AI is an intelligent study companion that converts free-form text into structured learning material using **Google Gemini 2.5 Flash**. Instead of functioning as a chatbot, the application generates structured JSON and renders it into interactive UI components such as summaries, flashcards, quizzes, and saved study sessions.
+StudySpark AI is an intelligent study companion built using React, Express.js, and Google Gemini 2.5 Flash. Instead of functioning as a chatbot, it generates structured JSON responses that are rendered into interactive learning components including summaries, flashcards, quizzes, and reusable study sessions.
 
----
+The application focuses on reliable AI integration, structured data rendering, robust error handling, and an engaging, responsive learning experience.
 
-# 🌐 Live Demo
+🌐 Live Demo
+🚀 Frontend
 
-### 🚀 Frontend
-**Live Application:**  
+Live Application
 https://your-frontend-url.vercel.app
 
-### ⚙️ Backend API
-**API Base URL:**  
-https://your-backend-url.onrender.com
+⚙️ Backend API
 
-### 📂 GitHub Repository
+API Base URL
+https://study-spark-ai-backend.onrender.com
+
+📂 GitHub Repository
+
 https://github.com/Eramfatima2004/study-spark-ai
 
 
----
-
-# ✨ Features
-
-## 🤖 AI-Powered Study Generation
+✨ Features
+🤖 AI-Powered Study Generation
 
 Generate structured study material from:
 
-- Class Notes
-- Technical Topics
-- Programming Concepts
-- Interview Questions
-- Exam Preparation Topics
+Class Notes
+Technical Concepts
+Programming Topics
+Interview Preparation
+Exam Topics
+Any custom study subject
 
-Powered by **Google Gemini 2.5 Flash**.
+Powered by Google Gemini 2.5 Flash.
 
----
+🎯 Learning Modes
 
-## 📖 AI Summary
+StudySpark offers multiple AI-powered learning modes tailored to different learning goals.
+
+📚 Study Mode
+
+Designed for comprehensive learning.
+
+Generates:
+
+Detailed AI Summary
+Key Concepts
+Definitions
+Real-world Examples
+15–20 Interactive Flashcards
+10–15 Quiz Questions
+Exam Tips
+
+Perfect for understanding a topic from scratch.
+
+💼 Interview Mode
+
+Optimized for placement and interview preparation.
+
+Generates:
+
+Short Concept Explanation
+Frequently Asked Interview Questions
+Expected Answers
+Follow-up Questions
+Interview Tips
+Important Technical Concepts
+
+Ideal for technical interview revision.
+
+⚡ Quick Revision Mode
+
+Designed for last-minute revision before exams.
+
+Generates:
+
+5 Key Concepts
+5 Revision Flashcards
+3 Rapid-Fire MCQs
+One-Minute Revision Sheet
+
+Perfect for quick recall.
+
+📖 AI Summary
 
 Automatically generates:
 
-- Detailed explanations
-- Important definitions
-- Key concepts
-- Real-world examples
-- Common mistakes
-- Exam tips
-- Quick revision notes
+Detailed Explanation
+Definitions
+Important Concepts
+Examples
+Common Mistakes
+Exam Tips
+Revision Notes
+🧠 Interactive Flashcards
 
----
+Features include:
 
-## 🧠 Interactive Flashcards
-
-- Flip animation
-- Previous / Next navigation
-- Progress tracking
-- Responsive design
-- Easy revision
-
----
-
-## 📝 AI Quiz
+Flip Animation
+Previous / Next Navigation
+Progress Tracking
+Mobile Friendly
+Interactive Learning
+📝 AI Quiz
 
 Generate interactive quizzes featuring:
 
-- Multiple Choice Questions
-- Instant feedback
-- Score tracking
-- Correct answers
-- Detailed explanations
+Multiple Choice Questions
+Instant Feedback
+Score Tracking
+Correct Answers
+Explanations
+Retry Incorrect Questions
+📚 Study Library
+Save Study Sessions
+Revisit Previous Topics
+Continue Learning Anytime
+🕒 Recent Sessions
 
----
+Quickly reopen previously generated study sessions without regenerating AI content.
 
-## 📚 Study Library
+🎨 Modern User Experience
+Responsive Design
+Dark Mode
+Smooth Animations
+Premium UI
+Keyboard Friendly
+Mobile Optimized
+🛡️ Robust AI Error Handling
 
-- Save generated study sets
-- Revisit previous sessions
-- Organize learning material
+Gracefully handles:
 
----
+Invalid AI Responses
+Malformed JSON
+Empty Responses
+Network Failures
+API Errors
+Retry Flow
+Loading States
+Schema Validation
+Prevention of Stale Responses
 
-## 🕒 Recent Sessions
+The application never crashes due to malformed AI output.
 
-Quickly reopen recently generated study topics without regenerating them.
+🌟 Why StudySpark?
 
----
+Unlike traditional AI chat interfaces, StudySpark transforms structured AI responses into an interactive learning experience.
 
-## 🎨 Premium UI
+Instead of displaying plain text, users can:
 
-- Responsive Design
-- Dark Mode
-- Modern Layout
-- Smooth Animations
-- Mobile Friendly
-- Beautiful Cards
+Choose a learning mode
+Learn through interactive flashcards
+Test themselves with quizzes
+Revise efficiently using Quick Revision Mode
+Prepare for placements using Interview Mode
+Save and revisit previous study sessions
 
----
+This creates a focused and reusable study workflow rather than a simple conversation with an AI model.
 
-# 🏗️ Tech Stack
-
-## Frontend
-
-- React
-- Vite
-- React Router
-- React Hooks
-- CSS Modules
-
-## Backend
-
-- Node.js
-- Express.js
-
-## AI
-
-- Google Gemini 2.5 Flash
-- @google/genai SDK
-
----
-
-# 📂 Project Structure
-
-```
+🏗️ Tech Stack
+Frontend
+React
+Vite
+React Router
+React Hooks
+CSS Modules
+Backend
+Node.js
+Express.js
+AI
+Google Gemini 2.5 Flash
+@google/genai SDK
+📂 Project Structure
 StudySpark-AI
 │
 ├── client
@@ -151,229 +201,157 @@ StudySpark-AI
 │
 ├── package.json
 └── README.md
-```
-
----
-
-# ⚙️ Installation
+⚙️ Installation
 
 Clone the repository
 
-```bash
 git clone https://github.com/Eramfatima2004/study-spark-ai.git
-```
 
 Move into the project
 
-```bash
 cd study-spark-ai
-```
 
-Install dependencies
+Install all dependencies
 
-```bash
 npm install
-```
 
 Install frontend dependencies
 
-```bash
 cd client
 npm install
-```
 
 Install backend dependencies
 
-```bash
 cd ../server
 npm install
-```
-
----
-
-# 🔑 Environment Variables
+🔑 Environment Variables
 
 Create:
 
-```
 server/.env
-```
 
-Example
+Example:
 
-```env
 GEMINI_API_KEY=YOUR_GEMINI_API_KEY
 PORT=5000
-```
-
----
-
-# ▶️ Running the Project
-
-### Start Backend
-
-```bash
+▶️ Running the Project
+Start Backend
 cd server
 npm run dev
-```
-
-### Start Frontend
-
-```bash
+Start Frontend
 cd client
 npm run dev
-```
 
 Open:
 
-```
 http://localhost:5173
-```
-
----
-
-# 🔄 Application Workflow
-
-```
-User enters notes/topic
-          │
-          ▼
+🔄 Application Workflow
+User Enters Topic
+        │
+        ▼
+Select Learning Mode
+(Study / Interview / Quick Revision)
+        │
+        ▼
 React Frontend
-          │
-          ▼
+        │
+        ▼
 Express Backend
-          │
-          ▼
-Gemini 2.5 Flash
-          │
-          ▼
-Structured JSON
-          │
-          ▼
+        │
+        ▼
+Google Gemini 2.5 Flash
+        │
+        ▼
+Structured JSON Response
+        │
+        ▼
 Schema Validation
-          │
-          ▼
+        │
+        ▼
 Interactive UI
-```
 
----
+ ├── AI Summary
+ ├── Flashcards
+ ├── Quiz
+ ├── Study Library
+ └── Recent Sessions
+🤖 AI Usage
 
+AI tools were responsibly used during development for:
 
-# 🤖 AI Usage
+Brainstorming UI ideas
+Prompt engineering
+Debugging implementation issues
+Refactoring components
+Improving documentation
 
-AI tools were used to assist with:
+All generated code was manually reviewed, integrated, tested, and modified before being included in the final application.
 
-- Brainstorming UI ideas
-- Refining prompts
-- Debugging implementation issues
-- Improving component structure
-- Writing documentation
+Custom prompts were designed for each Learning Mode to generate context-specific educational content while maintaining a consistent user experience.
 
-All generated code was reviewed, integrated, tested, and modified manually to ensure correctness and understanding.
-
----
-
-# ⚠️ Error Handling
-
-The application gracefully handles:
-
-- Invalid AI responses
-- Empty responses
-- Network failures
-- API errors
-- Loading states
-- Retry flow
-- Backend validation failures
-
-The application never crashes because of malformed AI output.
-
----
-
-# 📱 Responsive Design
+📱 Responsive Design
 
 Fully optimized for:
 
-- Desktop
-- Tablet
-- Mobile
+Desktop
+Tablet
+Mobile
+🔒 Security
+API key stored securely using environment variables
+API key never exposed to the frontend
+All AI requests are routed through the Express backend
+🚧 Known Limitations
+Requires an active internet connection
+Depends on Gemini API availability
+AI-generated content may vary depending on model responses
+Free-tier Gemini API usage may be rate limited
+🚀 Future Improvements
+PDF Upload Support
+OCR for Handwritten Notes
+Voice Input
+Export Notes as PDF
+AI Study Planner
+Spaced Repetition
+User Authentication
+Cloud Sync
+Learning Analytics Dashboard
+⏱️ Time Spent
 
----
+Approximately 10–12 hours
 
-# 🔒 Security
-
-- API key stored securely using environment variables
-- API key never exposed to the frontend
-- All Gemini requests routed through the backend
-
----
-
-# 🚧 Known Limitations
-
-- Requires an active internet connection
-- Depends on Gemini API availability
-- AI-generated content may occasionally vary depending on the model response
-- Free-tier API usage may be rate limited
-
----
-
-# 🚀 Future Improvements
-
-- PDF Upload
-- OCR Support
-- Voice Input
-- Export Notes as PDF
-- Spaced Repetition
-- AI Study Planner
-- Authentication
-- Cloud Sync
-
----
-
-# ⏱️ Time Spent
-
-Approximately **8 hours**
-
-| Task | Time |
-|------|------|
-| Project Planning | 30 mins |
-| UI Development | 2 hrs |
-| Backend Development | 1.5 hrs |
-| Gemini Integration | 1.5 hrs |
-| Error Handling | 45 mins |
-| Testing & Debugging | 1 hr |
-| Documentation | 30 mins |
-
----
-
-# 👩‍💻 Author
-
-## Eram Fatima
+Task	Time
+Project Planning	30 mins
+UI Development	2.5 hrs
+Backend Development	2 hrs
+Gemini Integration	2 hrs
+Learning Modes	1 hr
+Error Handling	1 hr
+Testing & Debugging	1.5 hrs
+Documentation	30 mins
+👩‍💻 Author
+Eram Fatima
 
 B.Tech Computer Science (IoT)
 
 Frontend Developer | AI Enthusiast
 
-**GitHub:**  
+GitHub
 https://github.com/Eramfatima2004
 
-**LinkedIn:**  
+LinkedIn
 https://linkedin.com/in/your-linkedin-profile
 
----
-
-## Acknowledgements
+🙏 Acknowledgements
 
 Built using:
 
-- React
-- Express.js
-- Google Gemini 2.5 Flash
-- Vite
+React
+Vite
+Express.js
+Google Gemini 2.5 Flash
 
-Created by **Eram Fatima**
+Special thanks to the open-source community and AI tools that assisted with brainstorming, debugging, and documentation during development.
 
----
-
-# 📄 License
+📄 License
 
 This project was developed as part of a Frontend Internship Assignment and is intended for educational and demonstration purposes.
